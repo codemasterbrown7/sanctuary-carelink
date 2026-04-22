@@ -337,13 +337,25 @@ export default function ConsultationForm() {
           {/* Diagnosis */}
           <div className="emis-section">
             <div className="emis-section-header">Extracted Diagnosis</div>
-            <p className="text-sm text-foreground font-medium">{editableExtracted.diagnosis}</p>
-            <div className="mt-2 flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1 bg-green-100 text-green-800 rounded font-mono text-sm">
-                ICD-10: {editableExtracted.icd10Codes.join(', ')}
-              </span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label className="emis-label">Diagnosis</label>
+                <input
+                  className="emis-input"
+                  value={editableExtracted.diagnosis}
+                  onChange={e => updateExtracted('diagnosis', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="emis-label">ICD-10 Codes</label>
+                <input
+                  className="emis-input font-mono"
+                  value={editableExtracted.icd10Codes.join(', ')}
+                  onChange={e => updateExtracted('icd10Codes', e.target.value.split(',').map(c => c.trim()).filter(Boolean))}
+                />
+              </div>
             </div>
-            <p className="mt-1 text-xs text-gray-500">ICD-10 codes auto-extracted from transcript. Used to match Sanctuary content library.</p>
+            <p className="mt-1 text-xs text-gray-500">Auto-extracted from transcript. Edit if needed — ICD-10 codes determine which content is matched.</p>
           </div>
 
           {/* Medications */}
