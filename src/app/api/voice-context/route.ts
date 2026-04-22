@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     ? `\nCONSULTATION TRANSCRIPT:\n${consultation.transcript}\n`
     : '';
 
-  const systemPrompt = `You are a caring, knowledgeable AI health companion for Sanctuary Health CareLink. You are speaking with ${consultation.patientName} who had a consultation recently.
+  const systemPrompt = `You are a caring, knowledgeable AI health companion for Sanctuary Health Careflow. You are speaking with ${consultation.patientName} who had a consultation recently.
 
 PATIENT CONTEXT:
 - Name: ${consultation.patientName}

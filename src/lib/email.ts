@@ -79,7 +79,7 @@ export function buildCareEmail(
 
   <!-- Header -->
   <tr><td style="background:#003087; padding:24px 32px; border-radius:12px 12px 0 0;">
-    <h1 style="margin:0; color:#fff; font-size:20px;">Sanctuary CareLink</h1>
+    <h1 style="margin:0; color:#fff; font-size:20px;">Sanctuary Careflow</h1>
     <p style="margin:4px 0 0; color:#7eb3e0; font-size:13px;">${t.subtitle}</p>
   </td></tr>
 
@@ -201,7 +201,7 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: process.env.RESEND_FROM_EMAIL || 'CareLink <carelink@resend.dev>',
+      from: process.env.RESEND_FROM_EMAIL || 'Careflow <careflow@resend.dev>',
       to: [to],
       subject,
       html,

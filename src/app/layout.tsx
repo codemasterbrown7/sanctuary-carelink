@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sanctuary CareLink",
+  title: "Sanctuary Careflow",
   description: "AI-powered post-consultation care companion — bridging clinical content with patient engagement",
 };
 
@@ -33,7 +33,7 @@ export default function RootLayout({
                   <span className="text-white font-bold text-sm">S</span>
                 </div>
                 <div>
-                  <h1 className="text-lg font-semibold text-foreground">Sanctuary CareLink</h1>
+                  <h1 className="text-lg font-semibold text-foreground">Sanctuary Careflow</h1>
                   <p className="text-xs text-muted">Post-Consultation Care Companion</p>
                 </div>
               </div>

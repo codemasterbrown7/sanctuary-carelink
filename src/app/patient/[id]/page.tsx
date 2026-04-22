@@ -178,7 +178,7 @@ export default function PatientPage({ params }: { params: Promise<{ id: string }
 
       {/* Footer */}
       <div className="text-center text-xs text-muted pb-8">
-        <p>Powered by Sanctuary Health CareLink</p>
+        <p>Powered by Sanctuary Health Careflow</p>
         <p className="mt-1">All content is clinically verified. This is not a substitute for professional medical advice.</p>
       </div>
     </div>

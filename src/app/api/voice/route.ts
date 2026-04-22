@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
   const medications = consultation?.medications.join(' and ') || '';
 
   const greeting = consultation
-    ? `Hello ${patientName}. Welcome to Sanctuary CareLink. I can see your recent consultation regarding ${diagnosis}.${medications ? ` You were prescribed ${medications}.` : ''} I'm here to help answer any questions about your diagnosis, medications, or care plan. Unfortunately, the voice AI is not configured for this demo, but in production, you would be speaking with an intelligent AI companion that has full context from your consultation.`
-    : `Hello there. Welcome to Sanctuary CareLink. I wasn't able to find a consultation linked to your phone number. Please make sure you're calling from the number your clinic has on file. If you need immediate help, please contact your healthcare provider directly.`;
+    ? `Hello ${patientName}. Welcome to Sanctuary Careflow. I can see your recent consultation regarding ${diagnosis}.${medications ? ` You were prescribed ${medications}.` : ''} I'm here to help answer any questions about your diagnosis, medications, or care plan. Unfortunately, the voice AI is not configured for this demo, but in production, you would be speaking with an intelligent AI companion that has full context from your consultation.`
+    : `Hello there. Welcome to Sanctuary Careflow. I wasn't able to find a consultation linked to your phone number. Please make sure you're calling from the number your clinic has on file. If you need immediate help, please contact your healthcare provider directly.`;
 
   const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>

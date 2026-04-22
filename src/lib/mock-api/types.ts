@@ -221,7 +221,7 @@ export interface Consultation {
   // Transcript
   transcript: string | null;    // Full consultation transcript with speaker labels
 
-  // CareLink processing
+  // Careflow processing
   careSummary: string | null;
   matchedVideoIds: string[];
   status: 'created' | 'content_matched' | 'summary_generated' | 'notification_sent';

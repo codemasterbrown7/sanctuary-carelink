@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     `${emailStrings.intro.split('.')[0]}.`,
     `${emailStrings.ctaSubtext}`,
     `${emailStrings.ctaButton} ${callbackNumber}`,
-    `— Sanctuary CareLink`,
+    `— Sanctuary Careflow`,
   ].join('\n');
 
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_PHONE_NUMBER) {
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         const html = buildCareEmail(consultation, matchResult.videos, callbackNumber, emailStrings);
         await sendEmail(
           consultation.patientEmail,
-          `Your care summary — ${consultation.diagnosis} | Sanctuary CareLink`,
+          `Your care summary — ${consultation.diagnosis} | Sanctuary Careflow`,
           html,
         );
         results.email = 'sent';
