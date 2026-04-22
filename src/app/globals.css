@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafb;
+  --foreground: #1a2332;
+  --primary: #0d9488;
+  --primary-dark: #0f766e;
+  --primary-light: #ccfbf1;
+  --accent: #06b6d4;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* ── EMIS Web-style form classes ────────────────────────────── */
+.emis-form {
+  background: #fff;
+  border: 1px solid #d8dde0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  color: #212b32;
+}
+
+.emis-banner {
+  background: #003087;
+  color: #fff;
+  padding: 12px 16px;
+  border-bottom: 3px solid #005eb8;
+}
+
+.emis-banner .emis-label {
+  color: #aeb7bd;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.emis-banner .emis-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.emis-banner .emis-input:focus {
+  border-color: #41b6e6;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.emis-banner .emis-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.emis-banner select.emis-input {
+  appearance: auto;
+}
+
+.emis-banner select.emis-input option {
+  background: #003087;
+  color: #fff;
+}
+
+.emis-allergy {
+  border-color: #d5281b !important;
+  background: rgba(213, 40, 27, 0.15) !important;
+}
+
+.emis-allergy::placeholder {
+  color: rgba(255, 200, 200, 0.6) !important;
+}
+
+.emis-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid #d8dde0;
+}
+
+.emis-section-header {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #005eb8;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #005eb8;
+}
+
+.emis-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4c6272;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.emis-input {
+  background: #fff;
+  border: 1px solid #aeb7bd;
+  color: #212b32;
+  padding: 5px 8px;
+  border-radius: 2px;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+
+.emis-input:focus {
+  border-color: #005eb8;
+  box-shadow: 0 0 0 2px rgba(0, 94, 184, 0.15);
+}
+
+.emis-input::placeholder {
+  color: #aeb7bd;
 }
