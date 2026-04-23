@@ -68,8 +68,10 @@ export async function extractConsultationData(transcript: string): Promise<Extra
         role: 'user',
         content: `You are a clinical data extraction system. Extract structured data from this GP consultation transcript.
 
-ICD-10 CODES (pick the most specific matching codes from this list):
+ICD-10 CODES WITH MATCHED CONTENT (prefer these when applicable, as they have educational videos):
 ${ICD10_REFERENCE}
+
+You are NOT limited to this list. If the transcript mentions conditions not covered above, use the correct ICD-10 code from your medical knowledge.
 
 TODAY'S DATE: ${today}
 
@@ -90,7 +92,8 @@ Respond with ONLY valid JSON, no markdown fences:
 }
 
 Rules:
-- Pick ALL matching ICD-10 codes (e.g. both E11 and E11.9 for Type 2 diabetes)
+- Extract ALL diagnoses mentioned in the transcript, not just the primary one
+- Pick ALL matching ICD-10 codes — use codes from the list above when they match, and use correct ICD-10 codes from your medical knowledge for any conditions not on the list
 - For followUpDate, if the doctor says "3 months", calculate the actual date from today
 - If a field isn't mentioned in the transcript, use an empty string (or null for followUpDate)
 - Do NOT invent information not present in the transcript`,
