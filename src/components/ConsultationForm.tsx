@@ -12,7 +12,7 @@ function DemoFill({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       title="Auto-fill for demo"
-      className="ml-2 px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-[#005eb8] hover:bg-blue-50 border border-transparent hover:border-blue-200 rounded transition-colors"
+      className="ml-2 px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-[#005eb8] hover:bg-blue-50 border border-transparent hover:border-blue-200 transition-colors"
     >
       fill
     </button>
@@ -87,18 +87,18 @@ function TranscriptRecorder({ transcript, onTranscriptChange }: {
           <button
             type="button"
             onClick={stopRecording}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-[#d5281b] hover:bg-[#b2211a] text-white text-sm font-medium transition-colors"
           >
-            <span className="w-2 h-2 rounded-sm bg-white" />
+            <span className="w-2 h-2 bg-white" />
             Stop Recording ({formatTime(recordingTime)})
           </button>
         ) : (
           <button
             type="button"
             onClick={startRecording}
-            className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-[#d5281b] hover:bg-[#b2211a] text-white text-sm font-medium transition-colors"
           >
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 bg-white" />
             Record Consultation
           </button>
         )}
@@ -245,7 +245,7 @@ export default function ConsultationForm() {
                   setEditableExtracted(null);
                 }}
                 title={`Fill ${s.condition} demo`}
-                className="px-1.5 py-0.5 text-[10px] text-blue-200 hover:text-white hover:bg-blue-800/50 border border-transparent hover:border-blue-400/30 rounded transition-colors"
+                className="px-1.5 py-0.5 text-[10px] text-blue-200 hover:text-white hover:bg-blue-800/50 border border-transparent hover:border-blue-400/30 transition-colors"
               >
                 {s.label}
               </button>
@@ -302,7 +302,7 @@ export default function ConsultationForm() {
                   setEditableExtracted(null);
                 }}
                 title={`Fill ${s.condition} transcript`}
-                className="px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-[#005eb8] hover:bg-blue-50 border border-transparent hover:border-blue-200 rounded transition-colors"
+                className="px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-[#005eb8] hover:bg-blue-50 border border-transparent hover:border-blue-200 transition-colors"
               >
                 {s.label}
               </button>
@@ -318,7 +318,7 @@ export default function ConsultationForm() {
             type="button"
             onClick={processTranscript}
             disabled={extracting || !transcript.trim()}
-            className="w-full py-3 px-4 bg-[#005eb8] hover:bg-[#003d78] text-white font-medium rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 bg-[#005eb8] hover:bg-[#003d78] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {extracting ? (
               <>
@@ -438,7 +438,7 @@ export default function ConsultationForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-[#0d9488] hover:bg-[#0f766e] text-white font-medium rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 bg-[#007f3b] hover:bg-[#005a2b] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

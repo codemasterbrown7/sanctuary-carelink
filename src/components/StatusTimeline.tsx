@@ -16,9 +16,9 @@ export default function StatusTimeline({ steps }: StatusTimelineProps) {
       {steps.map((step, i) => (
         <div key={i} className="flex items-start gap-3">
           <div className="flex flex-col items-center">
-            <div className={`w-3 h-3 rounded-full mt-1 ${
+            <div className={`w-2.5 h-2.5 mt-1.5 ${
               step.status === 'completed' ? 'bg-success' :
-              step.status === 'current' ? 'bg-primary animate-pulse-dot' :
+              step.status === 'current' ? 'bg-primary' :
               'bg-border'
             }`} />
             {i < steps.length - 1 && (

@@ -30,13 +30,12 @@ export default function ContentCard({ video, index, compact }: ContentCardProps)
         href={video.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-start gap-3 p-3 bg-card border border-border rounded-lg hover:border-primary/30 transition-colors animate-fade-in"
-        style={{ animationDelay: `${index * 80}ms` }}
+        className="flex items-start gap-3 p-3 bg-card border border-border hover:border-primary/30 transition-colors"
       >
         <img
           src={getYouTubeThumbnail(video.youtubeId)}
           alt={video.title}
-          className="w-20 h-14 rounded object-cover shrink-0"
+          className="w-20 h-14 object-cover shrink-0"
         />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-foreground truncate">{video.title}</p>
@@ -51,8 +50,7 @@ export default function ContentCard({ video, index, compact }: ContentCardProps)
       href={video.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-colors animate-fade-in"
-      style={{ animationDelay: `${index * 100}ms` }}
+      className="block bg-card border border-border overflow-hidden hover:border-primary/30 transition-colors"
     >
       <div className="relative">
         <img
@@ -60,7 +58,7 @@ export default function ContentCard({ video, index, compact }: ContentCardProps)
           alt={video.title}
           className="w-full h-36 object-cover"
         />
-        <span className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-1.5 py-0.5 rounded">
+        <span className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-1.5 py-0.5">
           {video.durationMinutes} min
         </span>
       </div>

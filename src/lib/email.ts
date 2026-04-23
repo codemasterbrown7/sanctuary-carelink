@@ -55,7 +55,7 @@ export function buildCareEmail(
     for (const v of topicVideos) {
       videoSections += `
       <tr><td style="padding: 8px 32px;">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e2e8f0;  overflow:hidden;">
           <tr>
             <td style="width:160px; vertical-align:top;">
               <a href="${escHtml(v.url)}" style="display:block;">
@@ -85,10 +85,10 @@ export function buildCareEmail(
 <body style="margin:0; padding:0; background:#f0f4f5; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f0f4f5;">
 <tr><td align="center" style="padding:24px 16px;">
-<table cellpadding="0" cellspacing="0" border="0" width="600" style="background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+<table cellpadding="0" cellspacing="0" border="0" width="600" style="background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
 
   <!-- Header -->
-  <tr><td style="background:#003087; padding:24px 32px; border-radius:12px 12px 0 0;">
+  <tr><td style="background:#003087; padding:24px 32px;">
     <h1 style="margin:0; color:#fff; font-size:20px;">Sanctuary Careflow</h1>
     <p style="margin:4px 0 0; color:#7eb3e0; font-size:13px;">${escHtml(t.subtitle)}</p>
   </td></tr>
@@ -103,7 +103,7 @@ export function buildCareEmail(
 
   <!-- Diagnosis Card -->
   <tr><td style="padding:0 32px 16px;">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f0f7ff; border:1px solid #b8d4f0; border-radius:8px;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f0f7ff; border:1px solid #b8d4f0; ">
       <tr><td style="padding:16px;">
         <p style="margin:0; font-size:12px; color:#005eb8; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">${escHtml(t.diagnosisLabel)}</p>
         <p style="margin:4px 0 0; font-size:16px; color:#212b32; font-weight:600;">${escHtml(t.diagnosis)}</p>
@@ -124,7 +124,7 @@ export function buildCareEmail(
   ${consultation.medications.length > 0 ? `
   <!-- Medications -->
   <tr><td style="padding:0 32px 16px;">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#eff6ff; border:1px solid #bfdbfe; ">
       <tr><td style="padding:16px;">
         <p style="margin:0; font-size:12px; color:#1e40af; font-weight:600; text-transform:uppercase;">${escHtml(t.medicationsLabel)}</p>
         ${consultation.medications.map(m => `<p style="margin:4px 0 0; font-size:14px; color:#1e3a5f;">&bull; ${escHtml(m)}</p>`).join('')}
@@ -136,7 +136,7 @@ export function buildCareEmail(
   ${consultation.followUpDate ? `
   <!-- Follow-up -->
   <tr><td style="padding:0 32px 16px;">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fffbeb; border:1px solid #fde68a; ">
       <tr><td style="padding:16px;">
         <p style="margin:0; font-size:12px; color:#92400e; font-weight:600; text-transform:uppercase;">${escHtml(t.followUpLabel)}</p>
         <p style="margin:4px 0 0; font-size:14px; color:#78350f; font-weight:600;">
@@ -150,7 +150,7 @@ export function buildCareEmail(
   ${t.safetyNetting ? `
   <!-- Safety Netting -->
   <tr><td style="padding:0 32px 16px;">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fef2f2; border:1px solid #fecaca; ">
       <tr><td style="padding:16px;">
         <p style="margin:0; font-size:12px; color:#991b1b; font-weight:600; text-transform:uppercase;">${escHtml(t.safetyLabel)}</p>
         <p style="margin:4px 0 0; font-size:14px; color:#7f1d1d;">${escHtml(t.safetyNetting)}</p>
@@ -170,13 +170,13 @@ export function buildCareEmail(
 
   <!-- Call CTA -->
   <tr><td style="padding:24px 32px;">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#0d9488; border-radius:8px;">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#005eb8; ">
       <tr><td style="padding:20px; text-align:center;">
         <p style="margin:0; color:#fff; font-size:16px; font-weight:600;">${escHtml(t.ctaHeading)}</p>
         <p style="margin:6px 0 12px; color:rgba(255,255,255,0.8); font-size:13px;">
           ${escHtml(t.ctaSubtext)}
         </p>
-        <a href="tel:${escHtml(callbackNumber)}" style="display:inline-block; background:#fff; color:#0d9488; font-weight:600; font-size:14px; padding:10px 24px; border-radius:6px; text-decoration:none;">
+        <a href="tel:${escHtml(callbackNumber)}" style="display:inline-block; background:#fff; color:#005eb8; font-weight:600; font-size:14px; padding:10px 24px;  text-decoration:none;">
           ${escHtml(t.ctaButton)} ${escHtml(callbackNumber)}
         </a>
       </td></tr>

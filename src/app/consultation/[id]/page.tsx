@@ -138,7 +138,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Patient Header — NHS style */}
-      <div className="bg-[#003087] text-white rounded-xl p-6 mb-8">
+      <div className="bg-[#003087] text-white p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div>
             <h2 className="text-2xl font-semibold">{c.patientName}</h2>
@@ -149,10 +149,10 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
               <span>{c.patientPhone}</span>
             </div>
             <div className="flex flex-wrap items-center gap-2 mt-3">
-              <span className="px-2 py-0.5 bg-white/10 rounded text-xs">
+              <span className="px-2 py-0.5 bg-white/10 text-xs">
                 {c.diagnosis}
               </span>
-              <span className="px-2 py-0.5 bg-green-500/20 text-green-200 rounded text-xs font-mono">
+              <span className="px-2 py-0.5 bg-green-500/20 text-green-200 text-xs font-mono">
                 ICD-10: {c.icd10Codes.join(', ')}
               </span>
             </div>
@@ -164,7 +164,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
             )}
             {c.allergies && (
               <p className="text-sm mt-1">
-                <span className="px-2 py-0.5 bg-red-500/30 text-red-200 rounded text-xs font-medium">
+                <span className="px-2 py-0.5 bg-red-500/30 text-red-200 text-xs font-medium">
                   Allergies: {c.allergies}
                 </span>
               </p>
@@ -208,7 +208,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
           {/* Transcript */}
           {c.transcript && (
-            <div className="bg-card border border-border rounded-xl p-6">
+            <div className="bg-card border border-border p-6">
               <button
                 onClick={() => setShowTranscript(!showTranscript)}
                 className="flex items-center justify-between w-full"
@@ -219,7 +219,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                 <span className="text-xs text-[#005eb8]">{showTranscript ? 'Hide' : 'Show'}</span>
               </button>
               {showTranscript && (
-                <pre className="mt-4 text-sm text-foreground whitespace-pre-wrap font-mono leading-relaxed bg-gray-50 p-4 rounded-lg max-h-96 overflow-y-auto">
+                <pre className="mt-4 text-sm text-foreground whitespace-pre-wrap font-mono leading-relaxed bg-gray-50 p-4 max-h-96 overflow-y-auto">
                   {c.transcript}
                 </pre>
               )}
@@ -228,7 +228,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
           {/* Clinical Notes */}
           {(c.history || c.clinicalNotes || c.plan) && (
-            <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+            <div className="bg-card border border-border p-6 space-y-4">
               <h3 className="text-sm font-semibold text-muted uppercase tracking-wider">Clinical Record</h3>
               {c.history && (
                 <div>
@@ -261,22 +261,22 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
         {/* Right: Timeline + Actions */}
         <div className="space-y-6">
           {/* Pipeline Status */}
-          <div className="bg-card border border-border rounded-xl p-6">
+          <div className="bg-card border border-border p-6">
             <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-4">Care Pipeline</h3>
             <StatusTimeline steps={timelineSteps} />
           </div>
 
           {/* Demo Controls */}
-          <div className="bg-card border border-border rounded-xl p-6">
+          <div className="bg-card border border-border p-6">
             <div className="flex items-center gap-2 mb-4">
               <h3 className="text-sm font-semibold text-muted uppercase tracking-wider">Actions</h3>
-              <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-200">Demo</span>
+              <span className="px-2 py-0.5 text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-200">Demo</span>
             </div>
             <div className="space-y-3">
               <button
                 onClick={generateSummary}
                 disabled={generatingSummary || !!c.careSummary}
-                className="w-full py-2.5 px-4 bg-[#005eb8] hover:bg-[#003d78] text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 bg-[#005eb8] hover:bg-[#003d78] text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {generatingSummary ? (
                   <>
@@ -295,7 +295,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
               <button
                 onClick={sendNotification}
                 disabled={sendingNotification || !c.careSummary || c.status === 'notification_sent'}
-                className="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 bg-[#007f3b] hover:bg-[#005a2b] text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {sendingNotification ? (
                   <>
@@ -319,7 +319,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
           {/* Care Summary Preview */}
           {c.careSummary && (
-            <div className="bg-card border border-border rounded-xl p-6 animate-fade-in">
+            <div className="bg-card border border-border p-6 animate-fade-in">
               <h3 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">AI Care Summary</h3>
               <div className="prose prose-sm max-w-none text-foreground">
                 {c.careSummary.split('\n').map((line, i) => (

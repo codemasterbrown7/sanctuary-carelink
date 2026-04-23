@@ -8,7 +8,7 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="bg-card border border-border overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 bg-[#003087] text-white">
           <div>
             <h2 className="text-lg font-semibold">New Consultation</h2>
