@@ -15,36 +15,69 @@ export interface DemoScenario {
 
 export const DEMO_SCENARIOS: DemoScenario[] = [
   // ── Type 2 Diabetes ──────────────────────────────────────────
+  // Source: ACI-Bench dataset (Hugging Face - mkieffer/ACI-Bench), Encounter ID: D2N087
   {
     label: 'Diabetes',
     condition: 'Type 2 Diabetes',
     contact: {
-      patientName: 'Mrs Maria Garcia',
+      patientName: 'Mr Richard Wells',
       patientPhone: '+447983665987',
       patientEmail: 'lucas@tfest.ai',
       patientLanguage: 'Spanish',
     },
-    transcript: `Doctor: Good morning Mrs Garcia, how are you feeling today?
-Patient: I've been getting quite thirsty lately and going to the toilet a lot more than usual.
-Doctor: I see, and when did you first notice these symptoms?
-Patient: About three weeks ago. I've also been feeling very tired, even after a full night's sleep.
-Doctor: Have you noticed any changes in your weight or vision?
-Patient: Now you mention it, my vision has been a bit blurry sometimes. I haven't weighed myself though.
-Doctor: Right. Your blood tests have come back and your HbA1c is elevated at 58 millimoles per mol. This confirms a diagnosis of Type 2 diabetes.
-Patient: Oh. I was worried about that. My mother had it as well.
-Doctor: Yes, family history is a significant risk factor. The good news is that Type 2 diabetes is very manageable, especially when caught early like this.
-Patient: What do I need to do?
-Doctor: I'm going to start you on a medication called Metformin — 500 milligrams, one tablet twice a day, taken with meals. This helps your body use insulin more effectively.
-Patient: Are there any side effects I should know about?
-Doctor: Some people experience stomach upset initially — things like nausea or loose stools. Taking it with food usually helps. If you get persistent diarrhoea or stomach cramps, let us know and we can adjust the dose or try a slow-release version.
-Patient: OK, I can manage that.
-Doctor: I'd also like to talk about some lifestyle changes. A balanced diet with fewer refined carbs, regular physical activity — even 30 minutes of brisk walking most days — and keeping an eye on your weight can make a real difference.
-Patient: I've been meaning to walk more anyway.
-Doctor: That's great. We'll also teach you how to monitor your blood glucose at home. The nurse will go through that with you. And I'm referring you to our diabetes education programme — it's very helpful for people newly diagnosed.
-Patient: When should I come back?
-Doctor: I'd like to see you again in three months. We'll repeat the HbA1c to see how the Metformin is working. In the meantime, if you experience persistent vomiting, confusion, or any difficulty breathing, please seek urgent medical help immediately.
-Patient: Three months, got it. Thank you, Doctor.
-Doctor: You're welcome, Mrs Garcia. You're not alone in this — we'll support you every step of the way.`,
+    transcript: `Doctor: Hi Richard, how are you? The medical assistant told me that you have a tick bite, is that what happened?
+Patient: I really don't know where I got it but I do get out in the woods and I do spend a lot of time out in the yard. But yeah, I've got a tick bite around my knee and it's been over a week and it just burns and is quite annoying.
+Doctor: OK, and have you had any fever or chills?
+Patient: I have not. At this point it just feels warm on that spot.
+Doctor: Alright, and have you noticed any other joint pain, like in your elbows or shoulders or anything like that since this started?
+Patient: Nothing other than my typical arthritic pain.
+Doctor: OK. Now you say that you like to go outside and you're working in the yard. I heard that you were a hunter — when was the last time you went hunting?
+Patient: Well I did go hunting not long ago, couple of weeks ago.
+Doctor: OK, were you able to shoot anything? Did you bring anything home?
+Patient: Well actually yeah, I had some grandchildren with me so I let them have what they wanted.
+Doctor: Nice, nice. Anyway, let's get back to our visit here. About your tick bite — do you notice that it's hard for you to move your knee at all?
+Patient: Not at this time, no.
+Doctor: And do you have any problems walking?
+Patient: No.
+Doctor: And have you ever had a tick bite before?
+Patient: I have, when I was younger I used to get a lot of them because I spent a lot of time out in the woods. But this was just one.
+Doctor: And have you ever been diagnosed with what we call Lyme disease before?
+Patient: I have not. I wouldn't know what the symptoms are.
+Doctor: Yeah, so some of those symptoms — any flu-like symptoms, have you had any body aches or chills or anything like that?
+Patient: No, just really kind of a headache. Just generally don't feel well.
+Doctor: Generally don't feel well. And has that been since the tick bite?
+Patient: It has.
+Doctor: OK. And any other symptoms like a cough or shortness of breath or dizziness?
+Patient: No.
+Doctor: Now since you are here, let me just ask you a little bit about your high blood pressure. Did you buy the blood pressure cuff I asked you to? Have you been checking your blood pressure at home?
+Patient: Periodically, yes.
+Doctor: OK, and do you think they are running OK?
+Patient: Yeah, blood pressure seems to be doing OK. The Lisinopril works well.
+Doctor: Good, I was just going to ask if you were taking your Lisinopril. And any side effects from the Lisinopril since we started it? I think we started it about a year or two ago.
+Patient: No, no side effects that I'm aware of.
+Doctor: OK. And then in terms of your diabetes — are you watching your sugar intake?
+Patient: Yeah, I usually watch what I'm eating but...
+Doctor: I am a big pie fan as well, I know. What's your favourite type of pie?
+Patient: Well, you know, I just like pie. Apple, cherry, chocolate, pecan. I try to avoid the pecan because I think it's just all sugar, but I do like it.
+Doctor: I like it too. Alright, are you taking the Metformin twice a day?
+Patient: Not every day but most of the time.
+Doctor: OK. And are you checking your blood sugars pretty regularly?
+Patient: I try to.
+Doctor: And do you know on average how they're running? Are they running below one fifty?
+Patient: Yeah, it's definitely running below that. With the Metformin it seems to be, you know, one twenty pretty regular.
+Doctor: Good, your blood sugars are running in the one twenties. That's really good. OK, well I want to just go ahead and do a quick physical exam. So I'm looking here at your vital signs and they look really good. I do think you're doing a good job with taking your Lisinopril — your blood pressure is about one twenty-two over seventy right now, which is right where we want it. Your heart rate is nice and slow at sixty-seven, which is right where we want it. And I don't appreciate any fever today, you have a normal temperature at ninety-eight point four. So I'm just going to go ahead and call out some physical exam findings. On your heart exam, your heart is in a nice regular rate and rhythm. I don't appreciate any murmur, rub, or gallop. On your lung exam, your lungs are nice and clear to auscultation bilaterally. On your right knee exam, I do appreciate some erythema and oedema as well as an area of fluctuance over your right patella. Does it hurt when I press?
+Patient: It's a little bit sore.
+Doctor: OK. There is pain to palpation of the right anterior knee. I'm just going to bend your knee up and down — does that hurt at all?
+Patient: No, it's just more of the typical grinding that I would feel.
+Doctor: OK, there is full range of motion of the right knee. And on skin examination there is evidence of a bull's-eye rash over the right knee. So what does that mean, Richard — you do have some area of inflammation over the right knee where you have that tick bite, and you do have what we call a bull's-eye rash, which is what we get concerned about with Lyme disease. So let's talk about my assessment and plan for you. For your tick bite, my concern is that you might have Lyme disease based on the presentation of your right knee. I'm going to start you on Doxycycline, one hundred milligrams twice a day for about three weeks. I'm also going to send a Lyme titre as well as a Western blot to see if you do in fact have Lyme disease. I'd like to avoid intravenous antibiotics, which I think we can — I want to see how you do with the oral antibiotics first.
+Patient: What were those last two tests?
+Doctor: So we're going to start you on some antibiotics to help with this possible Lyme disease, and I'm going to order some blood tests just to see exactly what's going on. Sometimes people need intravenous antibiotics because Lyme disease can cause problems on other organs like your heart, if not treated appropriately. But I think we caught this early enough that we can just treat you with oral antibiotics. For your hypertension, I think you're doing a really good job. Let's continue you on the Lisinopril twenty milligrams once a day. I also want to order a lipid panel just to make sure everything is OK with your cholesterol. And then for your diabetes, I want to order a haemoglobin A1c and continue you on the Metformin one thousand milligrams twice a day. It sounds like you're doing a good job since your blood sugars are running in the one twenties. I don't think we need to make any adjustments, but we'll see what the haemoglobin A1c shows — that gives us an idea of what your blood sugars are doing on a long-term basis.
+Patient: OK. At what point do you start checking kidney function? I've been told that Metformin can possibly cause some kidney issues.
+Doctor: It can, you know. Your kidney function — I checked it about two months ago and it looks pretty good, pretty normal. But since we're doing blood work on you, I can go ahead and order a basic metabolic panel just to make sure your kidney function is stable.
+Patient: OK, that'd be good.
+Doctor: Anything else?
+Patient: Not that I can think of at this time.
+Doctor: Well, you know where to find me. Take care. Bye.`,
   },
 
   // ── Hypertension ─────────────────────────────────────────────
