@@ -7,14 +7,14 @@ function buildSystemPrompt(consultation: {
   diagnosis: string;
   icd10Codes: string[];
   medications: string[];
-  medicationInstructions?: string;
-  plan?: string;
-  followUpDate?: string;
-  followUpInstructions?: string;
-  safetyNetting?: string;
+  medicationInstructions?: string | null;
+  plan?: string | null;
+  followUpDate?: string | null;
+  followUpInstructions?: string | null;
+  safetyNetting?: string | null;
   patientLanguage: string;
-  careSummary?: string;
-  transcript?: string;
+  careSummary?: string | null;
+  transcript?: string | null;
 }, contentSummary: string): string {
   const transcriptSection = consultation.transcript
     ? `\nCONSULTATION TRANSCRIPT:\n${consultation.transcript}\n`
