@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ExtractedConsultation } from '@/lib/claude';
+import { DEMO_SCENARIOS } from '@/lib/demo-transcripts';
 
 // ── Demo fill button ─────────────────────────────────────────
 function DemoFill({ onClick }: { onClick: () => void }) {
@@ -116,35 +117,7 @@ function TranscriptRecorder({ transcript, onTranscriptChange }: {
   );
 }
 
-// ── Demo data ────────────────────────────────────────────────
-const DEMO_CONTACT = {
-  patientName: 'Mrs Maria Garcia',
-  patientPhone: '+447983665987',
-  patientEmail: 'lucas@tfest.ai',
-  patientLanguage: 'Spanish',
-};
-
-const DEMO_TRANSCRIPT = `Doctor: Good morning Mrs Garcia, how are you feeling today?
-Patient: I've been getting quite thirsty lately and going to the toilet a lot more than usual.
-Doctor: I see, and when did you first notice these symptoms?
-Patient: About three weeks ago. I've also been feeling very tired, even after a full night's sleep.
-Doctor: Have you noticed any changes in your weight or vision?
-Patient: Now you mention it, my vision has been a bit blurry sometimes. I haven't weighed myself though.
-Doctor: Right. Your blood tests have come back and your HbA1c is elevated at 58 millimoles per mol. This confirms a diagnosis of Type 2 diabetes.
-Patient: Oh. I was worried about that. My mother had it as well.
-Doctor: Yes, family history is a significant risk factor. The good news is that Type 2 diabetes is very manageable, especially when caught early like this.
-Patient: What do I need to do?
-Doctor: I'm going to start you on a medication called Metformin — 500 milligrams, one tablet twice a day, taken with meals. This helps your body use insulin more effectively.
-Patient: Are there any side effects I should know about?
-Doctor: Some people experience stomach upset initially — things like nausea or loose stools. Taking it with food usually helps. If you get persistent diarrhoea or stomach cramps, let us know and we can adjust the dose or try a slow-release version.
-Patient: OK, I can manage that.
-Doctor: I'd also like to talk about some lifestyle changes. A balanced diet with fewer refined carbs, regular physical activity — even 30 minutes of brisk walking most days — and keeping an eye on your weight can make a real difference.
-Patient: I've been meaning to walk more anyway.
-Doctor: That's great. We'll also teach you how to monitor your blood glucose at home. The nurse will go through that with you. And I'm referring you to our diabetes education programme — it's very helpful for people newly diagnosed.
-Patient: When should I come back?
-Doctor: I'd like to see you again in three months. We'll repeat the HbA1c to see how the Metformin is working. In the meantime, if you experience persistent vomiting, confusion, or any difficulty breathing, please seek urgent medical help immediately.
-Patient: Three months, got it. Thank you, Doctor.
-Doctor: You're welcome, Mrs Garcia. You're not alone in this — we'll support you every step of the way.`;
+// ── Demo data sourced from DEMO_SCENARIOS ───────────────────
 
 // ── Main Form ────────────────────────────────────────────────
 export default function ConsultationForm() {
@@ -260,7 +233,24 @@ export default function ConsultationForm() {
       <div className="emis-banner">
         <div className="flex items-center justify-between mb-2">
           <span className="text-[10px] uppercase tracking-wider text-blue-200">Patient Contact Details</span>
-          <DemoFill onClick={() => setContact(DEMO_CONTACT)} />
+          <div className="flex items-center gap-1">
+            {DEMO_SCENARIOS.map((s, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => {
+                  setContact(s.contact);
+                  setTranscript(s.transcript);
+                  setExtracted(null);
+                  setEditableExtracted(null);
+                }}
+                title={`Fill ${s.condition} demo`}
+                className="px-1.5 py-0.5 text-[10px] text-blue-200 hover:text-white hover:bg-blue-800/50 border border-transparent hover:border-blue-400/30 rounded transition-colors"
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div>
@@ -301,7 +291,23 @@ export default function ConsultationForm() {
       <div className="emis-section">
         <div className="flex items-center">
           <div className="emis-section-header flex-1">Consultation Transcript</div>
-          <DemoFill onClick={() => setTranscript(DEMO_TRANSCRIPT)} />
+          <div className="flex items-center gap-1">
+            {DEMO_SCENARIOS.map((s, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => {
+                  setTranscript(s.transcript);
+                  setExtracted(null);
+                  setEditableExtracted(null);
+                }}
+                title={`Fill ${s.condition} transcript`}
+                className="px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-[#005eb8] hover:bg-blue-50 border border-transparent hover:border-blue-200 rounded transition-colors"
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
         </div>
         <TranscriptRecorder
           transcript={transcript}
