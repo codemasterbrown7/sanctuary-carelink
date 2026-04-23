@@ -2,6 +2,16 @@ import type { Consultation, HealthVideo } from './mock-api/types';
 import type { EmailTranslations } from './claude';
 import { getYouTubeThumbnail } from './videos';
 
+// Escape HTML to prevent XSS in email templates
+function escHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 const TOPIC_KEY_MAP: Record<string, keyof EmailTranslations> = {
   overview: 'topicOverview',
   medication: 'topicMedication',
@@ -38,7 +48,7 @@ export function buildCareEmail(
     videoSections += `
       <tr><td style="padding: 24px 32px 8px;">
         <h3 style="margin:0; font-size:16px; color:#005eb8; border-bottom:2px solid #005eb8; padding-bottom:6px;">
-          ${topicLabel}
+          ${escHtml(topicLabel)}
         </h3>
       </td></tr>`;
 
@@ -48,19 +58,19 @@ export function buildCareEmail(
         <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
           <tr>
             <td style="width:160px; vertical-align:top;">
-              <a href="${v.url}" style="display:block;">
-                <img src="${getYouTubeThumbnail(v.youtubeId)}" alt="${v.title}" width="160" height="90" style="display:block; object-fit:cover;" />
+              <a href="${escHtml(v.url)}" style="display:block;">
+                <img src="${escHtml(getYouTubeThumbnail(v.youtubeId))}" alt="${escHtml(v.title)}" width="160" height="90" style="display:block; object-fit:cover;" />
               </a>
             </td>
             <td style="padding:12px 16px; vertical-align:top;">
-              <a href="${v.url}" style="color:#212b32; font-weight:600; font-size:14px; text-decoration:none;">
-                ${v.title}
+              <a href="${escHtml(v.url)}" style="color:#212b32; font-weight:600; font-size:14px; text-decoration:none;">
+                ${escHtml(v.title)}
               </a>
               <p style="margin:4px 0 0; font-size:12px; color:#4c6272; line-height:1.4;">
-                ${v.description}
+                ${escHtml(v.description)}
               </p>
               <p style="margin:6px 0 0; font-size:11px; color:#768692;">
-                ${v.channel} &middot; ${v.durationMinutes} min
+                ${escHtml(v.channel)} &middot; ${v.durationMinutes} min
               </p>
             </td>
           </tr>
@@ -80,14 +90,14 @@ export function buildCareEmail(
   <!-- Header -->
   <tr><td style="background:#003087; padding:24px 32px; border-radius:12px 12px 0 0;">
     <h1 style="margin:0; color:#fff; font-size:20px;">Sanctuary Careflow</h1>
-    <p style="margin:4px 0 0; color:#7eb3e0; font-size:13px;">${t.subtitle}</p>
+    <p style="margin:4px 0 0; color:#7eb3e0; font-size:13px;">${escHtml(t.subtitle)}</p>
   </td></tr>
 
   <!-- Greeting -->
   <tr><td style="padding:24px 32px;">
-    <h2 style="margin:0; font-size:18px; color:#212b32;">${t.greeting}</h2>
+    <h2 style="margin:0; font-size:18px; color:#212b32;">${escHtml(t.greeting)}</h2>
     <p style="margin:8px 0 0; font-size:14px; color:#4c6272; line-height:1.6;">
-      ${t.intro}
+      ${escHtml(t.intro)}
     </p>
   </td></tr>
 
@@ -95,9 +105,9 @@ export function buildCareEmail(
   <tr><td style="padding:0 32px 16px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f0f7ff; border:1px solid #b8d4f0; border-radius:8px;">
       <tr><td style="padding:16px;">
-        <p style="margin:0; font-size:12px; color:#005eb8; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">${t.diagnosisLabel}</p>
-        <p style="margin:4px 0 0; font-size:16px; color:#212b32; font-weight:600;">${t.diagnosis}</p>
-        <p style="margin:4px 0 0; font-size:11px; color:#768692; font-family:monospace;">ICD-10: ${consultation.icd10Codes.join(', ')}</p>
+        <p style="margin:0; font-size:12px; color:#005eb8; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">${escHtml(t.diagnosisLabel)}</p>
+        <p style="margin:4px 0 0; font-size:16px; color:#212b32; font-weight:600;">${escHtml(t.diagnosis)}</p>
+        <p style="margin:4px 0 0; font-size:11px; color:#768692; font-family:monospace;">ICD-10: ${escHtml(consultation.icd10Codes.join(', '))}</p>
       </td></tr>
     </table>
   </td></tr>
@@ -105,9 +115,9 @@ export function buildCareEmail(
   ${consultation.careSummary ? `
   <!-- Care Summary -->
   <tr><td style="padding:0 32px 16px;">
-    <h3 style="margin:0 0 8px; font-size:16px; color:#005eb8;">${t.careSummaryHeading}</h3>
+    <h3 style="margin:0 0 8px; font-size:16px; color:#005eb8;">${escHtml(t.careSummaryHeading)}</h3>
     <div style="font-size:14px; color:#212b32; line-height:1.6;">
-      ${consultation.careSummary.split('\n').filter(Boolean).map(l => `<p style="margin:0 0 8px;">${l}</p>`).join('')}
+      ${consultation.careSummary.split('\n').filter(Boolean).map(l => `<p style="margin:0 0 8px;">${escHtml(l)}</p>`).join('')}
     </div>
   </td></tr>` : ''}
 
@@ -116,9 +126,9 @@ export function buildCareEmail(
   <tr><td style="padding:0 32px 16px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px;">
       <tr><td style="padding:16px;">
-        <p style="margin:0; font-size:12px; color:#1e40af; font-weight:600; text-transform:uppercase;">${t.medicationsLabel}</p>
-        ${consultation.medications.map(m => `<p style="margin:4px 0 0; font-size:14px; color:#1e3a5f;">&bull; ${m}</p>`).join('')}
-        ${t.medicationInstructions ? `<p style="margin:8px 0 0; font-size:13px; color:#3b6fa0;">${t.medicationInstructions}</p>` : ''}
+        <p style="margin:0; font-size:12px; color:#1e40af; font-weight:600; text-transform:uppercase;">${escHtml(t.medicationsLabel)}</p>
+        ${consultation.medications.map(m => `<p style="margin:4px 0 0; font-size:14px; color:#1e3a5f;">&bull; ${escHtml(m)}</p>`).join('')}
+        ${t.medicationInstructions ? `<p style="margin:8px 0 0; font-size:13px; color:#3b6fa0;">${escHtml(t.medicationInstructions)}</p>` : ''}
       </td></tr>
     </table>
   </td></tr>` : ''}
@@ -128,11 +138,11 @@ export function buildCareEmail(
   <tr><td style="padding:0 32px 16px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px;">
       <tr><td style="padding:16px;">
-        <p style="margin:0; font-size:12px; color:#92400e; font-weight:600; text-transform:uppercase;">${t.followUpLabel}</p>
+        <p style="margin:0; font-size:12px; color:#92400e; font-weight:600; text-transform:uppercase;">${escHtml(t.followUpLabel)}</p>
         <p style="margin:4px 0 0; font-size:14px; color:#78350f; font-weight:600;">
-          ${new Date(consultation.followUpDate).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          ${escHtml(new Date(consultation.followUpDate).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }))}
         </p>
-        ${t.followUpInstructions ? `<p style="margin:4px 0 0; font-size:13px; color:#92400e;">${t.followUpInstructions}</p>` : ''}
+        ${t.followUpInstructions ? `<p style="margin:4px 0 0; font-size:13px; color:#92400e;">${escHtml(t.followUpInstructions)}</p>` : ''}
       </td></tr>
     </table>
   </td></tr>` : ''}
@@ -142,17 +152,17 @@ export function buildCareEmail(
   <tr><td style="padding:0 32px 16px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px;">
       <tr><td style="padding:16px;">
-        <p style="margin:0; font-size:12px; color:#991b1b; font-weight:600; text-transform:uppercase;">${t.safetyLabel}</p>
-        <p style="margin:4px 0 0; font-size:14px; color:#7f1d1d;">${t.safetyNetting}</p>
+        <p style="margin:0; font-size:12px; color:#991b1b; font-weight:600; text-transform:uppercase;">${escHtml(t.safetyLabel)}</p>
+        <p style="margin:4px 0 0; font-size:14px; color:#7f1d1d;">${escHtml(t.safetyNetting)}</p>
       </td></tr>
     </table>
   </td></tr>` : ''}
 
   <!-- Educational Videos -->
   <tr><td style="padding:16px 32px 8px;">
-    <h2 style="margin:0; font-size:18px; color:#212b32;">${t.resourcesHeading}</h2>
+    <h2 style="margin:0; font-size:18px; color:#212b32;">${escHtml(t.resourcesHeading)}</h2>
     <p style="margin:4px 0 0; font-size:13px; color:#4c6272;">
-      ${t.resourcesSubtext}
+      ${escHtml(t.resourcesSubtext)}
     </p>
   </td></tr>
 
@@ -162,12 +172,12 @@ export function buildCareEmail(
   <tr><td style="padding:24px 32px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#0d9488; border-radius:8px;">
       <tr><td style="padding:20px; text-align:center;">
-        <p style="margin:0; color:#fff; font-size:16px; font-weight:600;">${t.ctaHeading}</p>
+        <p style="margin:0; color:#fff; font-size:16px; font-weight:600;">${escHtml(t.ctaHeading)}</p>
         <p style="margin:6px 0 12px; color:rgba(255,255,255,0.8); font-size:13px;">
-          ${t.ctaSubtext}
+          ${escHtml(t.ctaSubtext)}
         </p>
-        <a href="tel:${callbackNumber}" style="display:inline-block; background:#fff; color:#0d9488; font-weight:600; font-size:14px; padding:10px 24px; border-radius:6px; text-decoration:none;">
-          ${t.ctaButton} ${callbackNumber}
+        <a href="tel:${escHtml(callbackNumber)}" style="display:inline-block; background:#fff; color:#0d9488; font-weight:600; font-size:14px; padding:10px 24px; border-radius:6px; text-decoration:none;">
+          ${escHtml(t.ctaButton)} ${escHtml(callbackNumber)}
         </a>
       </td></tr>
     </table>
@@ -176,7 +186,7 @@ export function buildCareEmail(
   <!-- Footer -->
   <tr><td style="padding:16px 32px 24px; border-top:1px solid #e2e8f0;">
     <p style="margin:0; font-size:11px; color:#768692; text-align:center;">
-      ${t.footer.replace(/\n/g, '<br>')}
+      ${escHtml(t.footer).replace(/\n/g, '<br>')}
     </p>
   </td></tr>
 
