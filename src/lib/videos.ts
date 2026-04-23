@@ -212,6 +212,128 @@ export const HEALTH_VIDEOS: HealthVideo[] = [
     topic: 'lifestyle',
     icd10: ['F41', 'F41.1'],
   },
+
+  // =============================================
+  // LYME DISEASE (A69.2)
+  // =============================================
+  {
+    id: 'vid-lyme-overview',
+    title: 'What is Lyme disease?',
+    url: 'https://www.youtube.com/watch?v=2Y9yo_Oi1zc',
+    youtubeId: '2Y9yo_Oi1zc',
+    channel: 'UK Health Security Agency',
+    durationMinutes: 2,
+    description: 'UKHSA Consultant Epidemiologist explains what Lyme disease is and how to be tick aware.',
+    topic: 'overview',
+    icd10: ['A69.2'],
+  },
+  {
+    id: 'vid-lyme-symptoms',
+    title: 'Lyme Disease — Causes, Symptoms, Diagnosis, Treatment, Pathology',
+    url: 'https://www.youtube.com/watch?v=shpSfoM5_TE',
+    youtubeId: 'shpSfoM5_TE',
+    channel: 'Osmosis from Elsevier',
+    durationMinutes: 7,
+    description: 'Comprehensive medical education video covering Lyme disease causes, symptoms, diagnosis and treatment.',
+    topic: 'symptoms',
+    icd10: ['A69.2'],
+  },
+  {
+    id: 'vid-lyme-diagnosis',
+    title: 'Lyme Disease: Mayo Clinic Radio',
+    url: 'https://www.youtube.com/watch?v=-PmQjAc2O6M',
+    youtubeId: '-PmQjAc2O6M',
+    channel: 'Mayo Clinic',
+    durationMinutes: 10,
+    description: 'Mayo Clinic experts discuss Lyme disease diagnosis, treatment options and long-term management.',
+    topic: 'diagnosis',
+    icd10: ['A69.2'],
+  },
+  {
+    id: 'vid-lyme-prevention',
+    title: '5 Tips to Prevent Tick Bites and Getting Lyme Disease',
+    url: 'https://www.youtube.com/watch?v=ENmVXtwsKE8',
+    youtubeId: 'ENmVXtwsKE8',
+    channel: 'Johns Hopkins Medicine',
+    durationMinutes: 7,
+    description: 'Johns Hopkins expert shares five practical tips to prevent tick bites and reduce Lyme disease risk.',
+    topic: 'lifestyle',
+    icd10: ['A69.2'],
+  },
+
+  // =============================================
+  // KNEE INJURY / MCL STRAIN (S83.4)
+  // =============================================
+  {
+    id: 'vid-mcl-overview',
+    title: 'Understand Knee Ligament Injuries (ACL, PCL, MCL, LCL)',
+    url: 'https://www.youtube.com/watch?v=faE8OCnYkKk',
+    youtubeId: 'faE8OCnYkKk',
+    channel: 'Health Decide',
+    durationMinutes: 2,
+    description: '3D animated overview explaining different knee ligament injuries including MCL tears and their mechanisms.',
+    topic: 'overview',
+    icd10: ['S83.4', 'S83.5'],
+  },
+  {
+    id: 'vid-mcl-symptoms',
+    title: 'MCL Tear: Signs, Symptoms and Current Treatments',
+    url: 'https://www.youtube.com/watch?v=7etKljYNJ2I',
+    youtubeId: '7etKljYNJ2I',
+    channel: 'Dr. David Geier',
+    durationMinutes: 6,
+    description: 'Sports medicine physician explains MCL tear signs, symptoms, and current treatment approaches.',
+    topic: 'symptoms',
+    icd10: ['S83.4'],
+  },
+  {
+    id: 'vid-mcl-rehab',
+    title: 'MCL Knee Exercises and Rehab — Doctor and Physio Led',
+    url: 'https://www.youtube.com/watch?v=q7_F6w6reOc',
+    youtubeId: 'q7_F6w6reOc',
+    channel: "Doctor O'Donovan",
+    durationMinutes: 6,
+    description: 'Doctor and physiotherapist-led guide to MCL knee rehabilitation exercises for recovery.',
+    topic: 'lifestyle',
+    icd10: ['S83.4'],
+  },
+
+  // =============================================
+  // ARTHRITIS (M19)
+  // =============================================
+  {
+    id: 'vid-arthritis-overview',
+    title: 'Living with Arthritis: Mayo Clinic Radio',
+    url: 'https://www.youtube.com/watch?v=-Is3LSDVtuo',
+    youtubeId: '-Is3LSDVtuo',
+    channel: 'Mayo Clinic',
+    durationMinutes: 20,
+    description: 'Mayo Clinic rheumatologist discusses living with arthritis including diagnosis, types, and management strategies.',
+    topic: 'overview',
+    icd10: ['M19', 'M19.9'],
+  },
+  {
+    id: 'vid-arthritis-exercise',
+    title: 'How to Stay Active With Osteoarthritis?',
+    url: 'https://www.youtube.com/watch?v=E42zVB-OCug',
+    youtubeId: 'E42zVB-OCug',
+    channel: 'Mayo Clinic',
+    durationMinutes: 2,
+    description: 'Mayo Clinic sports medicine physician discusses safe exercises and staying active with osteoarthritis.',
+    topic: 'lifestyle',
+    icd10: ['M19', 'M19.9'],
+  },
+  {
+    id: 'vid-arthritis-nhs',
+    title: 'Rheumatoid Arthritis',
+    url: 'https://www.youtube.com/watch?v=0uwx64YaxSk',
+    youtubeId: '0uwx64YaxSk',
+    channel: 'NHS',
+    durationMinutes: 4,
+    description: 'NHS overview of rheumatoid arthritis covering what it is, symptoms, and how it is managed.',
+    topic: 'overview',
+    icd10: ['M05', 'M06', 'M19'],
+  },
 ];
 
 // Match videos by ICD-10 codes (like Sanctuary's content matching)
