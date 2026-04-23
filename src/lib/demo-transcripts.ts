@@ -139,7 +139,7 @@ Doctor: Alright, so my nurse will be in with those orders and we will see you ne
       patientName: 'Ms Valerie Cole',
       patientPhone: '+447983665987',
       patientEmail: 'lucas@tfest.ai',
-      patientLanguage: 'en',
+      patientLanguage: 'Spanish',
     },
     transcript: `Doctor: Hi there, I'm Doctor Smith. What can I do for you today?
 Patient: I've been feeling really anxious over the past few months. I just get really nervous every morning about leaving the house, and it's started to really worry me, and just add up, and build up on that anxiety. And I just didn't know who to talk to, so I wanted to check with my GP.
