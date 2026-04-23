@@ -2,40 +2,25 @@ import { NextRequest } from 'next/server';
 import { getConsultationByPhone, getConsultation } from '@/lib/store';
 import { matchContent } from '@/lib/content-matcher';
 
-// ElevenLabs Conversational AI calls this endpoint to get patient context
-export async function GET(request: NextRequest) {
-  const phone = request.nextUrl.searchParams.get('phone');
-  const consultationId = request.nextUrl.searchParams.get('consultationId');
-
-  let consultation;
-  if (consultationId) {
-    consultation = await getConsultation(consultationId);
-  } else if (phone) {
-    consultation = await getConsultationByPhone(phone);
-  }
-
-  if (!consultation) {
-    return Response.json({
-      systemPrompt: 'You are a friendly health companion for Sanctuary Health. The caller does not have a recent consultation on file. Politely let them know and suggest they contact their healthcare provider directly.',
-    });
-  }
-
-  // Get matched content for context
-  const matchResult = matchContent({
-    icd10Codes: consultation.icd10Codes,
-    medications: consultation.medications,
-  });
-
-  const contentSummary = matchResult.videos
-    .slice(0, 8)
-    .map(v => `- ${v.title}: ${v.description}`)
-    .join('\n');
-
+function buildSystemPrompt(consultation: {
+  patientName: string;
+  diagnosis: string;
+  icd10Codes: string[];
+  medications: string[];
+  medicationInstructions?: string;
+  plan?: string;
+  followUpDate?: string;
+  followUpInstructions?: string;
+  safetyNetting?: string;
+  patientLanguage: string;
+  careSummary?: string;
+  transcript?: string;
+}, contentSummary: string): string {
   const transcriptSection = consultation.transcript
     ? `\nCONSULTATION TRANSCRIPT:\n${consultation.transcript}\n`
     : '';
 
-  const systemPrompt = `You are a caring, knowledgeable AI health companion for Sanctuary Health Careflow. You are speaking with ${consultation.patientName} who had a consultation recently.
+  return `You are a caring, knowledgeable AI health companion for Sanctuary Health Careflow. You are speaking with ${consultation.patientName} who had a consultation recently.
 
 PATIENT CONTEXT:
 - Name: ${consultation.patientName}
@@ -61,16 +46,89 @@ GUIDELINES:
 - If asked something outside your knowledge or that requires clinical judgement, say: "That's a great question, but I'd recommend discussing that directly with your doctor to get personalised advice."
 - Never diagnose, change medication, or contradict the doctor's instructions.
 - Remind them of their follow-up appointment if relevant.
-- Keep responses concise — this is a phone call, not an essay.`;
+- Keep responses concise — this is a phone call, not an essay.
+- If the patient speaks in ${consultation.patientLanguage}, respond in that language.`;
+}
+
+const NO_CONSULTATION_PROMPT = 'You are a friendly health companion for Sanctuary Health Careflow. The caller does not have a recent consultation on file. Politely let them know and suggest they contact their healthcare provider directly. If they believe this is an error, suggest they call from the phone number their clinic has on file.';
+
+// ElevenLabs native Twilio integration webhook
+// Called by ElevenLabs when an inbound call arrives — returns dynamic system prompt override
+export async function POST(request: NextRequest) {
+  let callerPhone = '';
+  let consultationId = '';
+
+  // ElevenLabs sends caller info in the POST body
+  try {
+    const body = await request.json();
+    callerPhone = body.caller_id || body.from || '';
+    consultationId = body.consultation_id || '';
+  } catch {
+    // Fall back to query params (for GET requests or testing)
+  }
+
+  // Also check query params
+  if (!callerPhone) {
+    callerPhone = request.nextUrl.searchParams.get('phone') || '';
+  }
+  if (!consultationId) {
+    consultationId = request.nextUrl.searchParams.get('consultationId') || '';
+  }
+
+  let consultation;
+  if (consultationId) {
+    consultation = await getConsultation(consultationId);
+  } else if (callerPhone) {
+    consultation = await getConsultationByPhone(callerPhone);
+  }
+
+  if (!consultation) {
+    return Response.json({
+      conversation_config_override: {
+        agent: {
+          prompt: { prompt: NO_CONSULTATION_PROMPT },
+          first_message: 'Hello, welcome to Sanctuary Careflow. I wasn\'t able to find a consultation linked to your phone number. Could you please make sure you\'re calling from the number your clinic has on file?',
+        },
+      },
+    });
+  }
+
+  // Get matched content for context
+  const matchResult = matchContent({
+    icd10Codes: consultation.icd10Codes,
+    medications: consultation.medications,
+  });
+
+  const contentSummary = matchResult.videos
+    .slice(0, 8)
+    .map(v => `- ${v.title}: ${v.description}`)
+    .join('\n');
+
+  const systemPrompt = buildSystemPrompt(consultation, contentSummary);
+
+  // Strip title from patient name for greeting
+  const titlePrefixes = ['mr', 'mrs', 'ms', 'dr', 'miss', 'prof'];
+  const nameParts = consultation.patientName.split(' ');
+  const firstName = titlePrefixes.includes(nameParts[0].toLowerCase())
+    ? nameParts[1] || nameParts[0]
+    : nameParts[0];
 
   return Response.json({
-    systemPrompt,
-    patientName: consultation.patientName,
-    consultationId: consultation.id,
+    conversation_config_override: {
+      agent: {
+        prompt: { prompt: systemPrompt },
+        first_message: `Hello ${firstName}, welcome to Sanctuary Careflow. I can see your recent consultation regarding ${consultation.diagnosis}. I'm here to help you understand your diagnosis, medications, or care plan. What would you like to know?`,
+      },
+    },
+    dynamic_variables: {
+      patient_name: consultation.patientName,
+      consultation_id: consultation.id,
+      diagnosis: consultation.diagnosis,
+    },
   });
 }
 
-// ElevenLabs may also call via POST
-export async function POST(request: NextRequest) {
-  return GET(request);
+// Also support GET for testing
+export async function GET(request: NextRequest) {
+  return POST(request);
 }
