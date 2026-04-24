@@ -1,6 +1,6 @@
 # Sanctuary Careflow
 
-An AI-powered post-consultation care delivery system that shows how S5's educational content library could be delivered directly to patients, matched to their specific diagnosis, as part of the post-consultation workflow.
+A working demo showing how S5's educational content library could be delivered directly to patients after GP consultations — matched to their diagnosis, translated into their language, and accessible through a voice agent they can call with questions.
 
 **Live demo:** [sanctuary-health-careflow-s5-demo.vercel.app](https://sanctuary-health-careflow-s5-demo.vercel.app)
 
@@ -8,103 +8,101 @@ An AI-powered post-consultation care delivery system that shows how S5's educati
 
 ## What it does
 
-After a GP consultation is recorded and transcribed, Careflow:
+A GP has a consultation. The conversation is transcribed (via Deepgram in production, or pasted in for the demo). From there, Careflow takes over:
 
-1. **Extracts structured clinical data** from the transcript using Claude — diagnosis, ICD-10 codes, medications, care plan, follow-up, safety netting
-2. **Matches educational content** from S5's video library using bidirectional ICD-10 prefix matching
-3. **Generates a personalised care summary** written at an 8th-grade reading level, in the patient's language
-4. **Delivers everything to the patient** via SMS (Twilio), email (Resend), and an AI voice agent (ElevenLabs) they can call with follow-up questions
+1. Claude reads the transcript and pulls out the diagnosis, ICD-10 codes, medications, plan, follow-up, safety netting
+2. The ICD-10 codes are used to match relevant educational videos from S5's library
+3. Claude generates a care summary in plain English (or whatever language the patient speaks)
+4. The patient gets an SMS, a full HTML email, and a phone number for a voice agent that knows their entire consultation
 
-The voice agent loads the full consultation context — diagnosis, medications, transcript, care plan — before the call even starts via ElevenLabs' Conversation Initiation Client Data webhook, so it greets the patient by name in their language from the first word.
+The voice agent bit is probably the most interesting part technically. When the patient calls, ElevenLabs fires a webhook to our API *before* the conversation starts. We look up the patient by phone number, load the full consultation context — diagnosis, meds, transcript, everything — and inject it as the system prompt. So the agent greets them by name, in their language, from the first word. No "let me look that up" delays.
 
 ---
 
-## Why it matters
+## Why I built it
 
-- **Patient recall:** 40-80% of medical information is forgotten immediately after a consultation. Almost half of what is remembered is incorrect. (Kessels, 2003, Journal of the Royal Society of Medicine)
-- **Language barriers:** 3 in 10 patients with limited English proficiency report difficulty understanding their provider's instructions. (KFF Survey). LEP patients experience medical errors resulting in physical harm more frequently. (Divi et al., 2007)
-- **GP workload:** The care summary, safety netting, and follow-up instructions are all generated from the transcript — the GP reviews instead of writes. Patients can call the voice agent with follow-up questions instead of calling the practice.
+I was looking into what happens after a GP consultation and the stats are bad:
+
+- 40-80% of what a doctor tells a patient is forgotten immediately, and almost half of what they *do* remember is wrong (Kessels, 2003)
+- 3 in 10 patients with limited English have difficulty understanding what their doctor told them to do (KFF Survey)
+
+S5 already has a library of clinically verified educational content, all tagged with ICD-10 codes. It's sitting there. Careflow is basically a pipeline to get that content to the patients who actually need it, at the right time, in their language.
+
+It also saves GPs time — the care summary, safety netting, follow-up instructions are all generated from the transcript. The GP reviews and clicks send instead of writing it all up manually.
 
 ---
 
 ## How I built it
 
-### Research phase
+### Research
 
-I started by spawning 23 parallel research threads using Claude sub-agents, each investigating a different angle — patient recall literature, NHS digital health initiatives, post-consultation workflows, voice AI in healthcare, content delivery mechanisms, and more. Each sub-agent was prompted to follow rabbit holes and spawn further research threads when they found something interesting.
+I kicked off about 23 parallel research threads using Claude sub-agents. Each one was investigating a different angle — patient recall literature, NHS digital health workflows, voice AI in healthcare, content delivery, that kind of thing. I told each agent to follow rabbit holes rather than just surface-level research, and if they found something interesting, to spawn another thread to go deeper.
 
-From these threads, I identified the highest-impact demo concepts and landed on a post-consultation care delivery system that could integrate with S5's existing content library.
+Once all of that came back, I went through the results and decided to build a post-consultation care delivery system — it seemed like the most useful thing I could demo.
 
-### S5 API research
+### Digging into S5
 
-I looked through Sanctuary Health's S5 platform and found that each educational video was tagged with ICD-10 codes. This meant I could build automatic content matching — extract ICD-10 codes from a consultation transcript, then match them to relevant educational videos using the same filtering logic as S5's GraphQL API (`icd10: { contains: [...] }`).
+I went through Sanctuary Health's S5 platform and noticed that every video was tagged with ICD-10 codes. So if I could extract ICD-10 codes from a consultation transcript, I could automatically match the right videos to each patient. The matching uses the same logic as S5's GraphQL API (`icd10: { contains: [...] }`) with bidirectional prefix matching.
 
-Since I don't have access to the actual S5 API, the demo uses YouTube videos tagged with the same ICD-10 codes. In production, this would be a single API call swap to pull real Sanctuary content.
+I don't have access to the actual S5 API, so the demo pulls YouTube videos tagged with the same codes. Swapping in real Sanctuary content would be a single API call change.
 
-### Building
+### The build
 
-The app was built in a single session. Key decisions:
+Built the whole thing in one session. A few things worth noting:
 
-- **Transcript-first design** — The form isn't a data entry screen. The GP enters patient contact details and the transcript (recorded via Deepgram or pasted). Everything else is extracted by Claude.
-- **GP reviews, AI assists** — All extracted data is editable before saving. The clinician is always in control.
-- **Real transcripts** — Demo scenarios use real consultation transcripts from published research datasets (ACI-Bench and PriMock57) rather than synthetic data.
-- **Phone number normalisation** — All phone numbers are normalised to E.164 format on save and on lookup, so the voice agent matches regardless of how the number was entered (07xxx, +44xxx, etc).
-- **Translation** — A single Claude API call translates the entire email into any language. Not a hardcoded list — any language the patient specifies.
+- The form is transcript-first — the GP doesn't fill in diagnosis fields manually. They enter the patient's contact details, the transcript comes from Deepgram, and Claude extracts everything else. The GP just reviews and corrects if needed.
+- I used real consultation transcripts from published research datasets (ACI-Bench and PriMock57) instead of writing fake ones.
+- Phone numbers get normalised to E.164 on save and on lookup. Learned this the hard way when someone entered `07xxx` in the form but ElevenLabs sent `+44xxx` as the caller ID and the voice agent couldn't find them.
+- Translation isn't a hardcoded language list. One Claude API call translates the entire email — every heading, label, patient data — into whatever language the patient has set. Works for any language.
 
-### Verification
+### Testing
 
-- End-to-end testing of the full pipeline: form submission, transcript extraction, content matching, summary generation, SMS delivery, email delivery, voice agent context loading
-- Tested with multiple demo scenarios (Type 2 Diabetes, Hypertension, Generalised Anxiety Disorder) across different languages
-- Verified phone normalisation handles all common UK formats
-- Confirmed voice agent loads consultation context correctly via webhook
-- Tested on mobile and desktop
+Ran through the full pipeline end-to-end with each demo scenario (diabetes, hypertension, anxiety) — form submission through to receiving the SMS, opening the email, and calling the voice agent. Tested on mobile and desktop. Broke the phone matching, fixed it, broke it again with a different format, then added proper normalisation.
 
 ---
 
 ## Tech stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS 4 |
+| | |
+|---|---|
+| Framework | Next.js 16, TypeScript, Tailwind CSS 4 |
 | Database | Supabase (PostgreSQL) |
-| AI | Claude (Anthropic) — extraction + summarisation + translation |
+| AI | Claude (Anthropic) — extraction, summarisation, translation |
 | Transcription | Deepgram |
 | SMS | Twilio |
 | Email | Resend |
-| Voice agent | ElevenLabs Conversational AI |
-| Deployment | Vercel |
+| Voice | ElevenLabs Conversational AI |
+| Hosting | Vercel |
 
 ---
 
-## Architecture
+## How it fits together
 
 ```
-Consultation Form (clinician view)
-        |
-        v
-  POST /api/extract-consultation
-  Claude extracts: diagnosis, ICD-10, meds, plan, safety netting
-        |
-        v
-  POST /api/consultations
-  Saves to Supabase, matches S5 content via ICD-10 codes
-        |
-        v
-  POST /api/generate-summary
-  Claude generates plain-language care summary
-        |
-        v
-  POST /api/send-notification
-  Twilio SMS + Resend email (translated if non-English)
-        |
-        v
-  Patient receives: SMS link, HTML email, voice agent number
-        |
-        v
-  POST /api/voice-context (ElevenLabs webhook)
-  Loads full consultation context into voice agent system prompt
+Clinician enters patient details + transcript
+  |
+  v
+POST /api/extract-consultation
+Claude extracts diagnosis, ICD-10 codes, meds, plan, safety netting
+  |
+  v
+POST /api/consultations
+Saves to Supabase, matches S5 content via ICD-10
+  |
+  v
+POST /api/generate-summary
+Claude writes a care summary in the patient's language
+  |
+  v
+POST /api/send-notification
+SMS via Twilio, HTML email via Resend (translated if needed)
+  |
+  v
+Patient gets: SMS with link, email with everything, voice agent number
+  |
+  v
+POST /api/voice-context (ElevenLabs webhook, fires before call starts)
+Looks up patient by phone, injects full consultation as system prompt
 ```
 
 ---
@@ -114,36 +112,34 @@ Consultation Form (clinician view)
 ```
 src/
   app/
-    dashboard/          Clinician form view
-    consultation/[id]/  Consultation detail + care pipeline
-    patient/[id]/       Patient-facing care summary page
+    dashboard/              Clinician form
+    consultation/[id]/      Consultation detail + care pipeline
+    patient/[id]/           What the patient sees
     api/
-      extract-consultation/   Claude transcript extraction
-      consultations/          CRUD operations
-      generate-summary/       Claude care summary generation
-      send-notification/      Twilio SMS + Resend email
-      voice-context/          ElevenLabs webhook for voice agent
-      transcribe/             Deepgram audio transcription
-      match-content/          ICD-10 content matching
+      extract-consultation/ Claude transcript extraction
+      consultations/        CRUD
+      generate-summary/     Claude care summary
+      send-notification/    Twilio + Resend
+      voice-context/        ElevenLabs pre-call webhook
+      transcribe/           Deepgram
+      match-content/        ICD-10 matching
   lib/
-    claude.ts           Claude API (extraction, summary, translation)
-    content-matcher.ts  Bidirectional ICD-10 prefix matching
-    videos.ts           Educational video library with ICD-10 tags
-    email.ts            HTML email template builder
-    twilio.ts           SMS delivery
-    phone.ts            Phone number normalisation (E.164)
-    store.ts            Supabase persistence layer
-    elevenlabs.ts       Voice agent configuration
-    demo-transcripts.ts Real consultation transcripts (ACI-Bench, PriMock57)
+    claude.ts               All Claude API calls
+    content-matcher.ts      ICD-10 prefix matching
+    videos.ts               Video library with ICD-10 tags
+    email.ts                HTML email builder
+    twilio.ts               SMS
+    phone.ts                Phone normalisation
+    store.ts                Supabase layer
+    demo-transcripts.ts     Real transcripts from ACI-Bench + PriMock57
 ```
 
 ---
 
 ## Data sources
 
-- **Consultation transcripts:** [ACI-Bench](https://huggingface.co/datasets/mkieffer/ACI-Bench) (207 clinical dialogues, Nature Scientific Data, 2023) and [PriMock57](https://github.com/babylonhealth/PriMock57) (57 mock primary care consultations by real Babylon Health clinicians)
-- **Patient recall research:** Kessels, 2003, JRSM; Watson & McKinstry, 2009, JRSM
-- **Language barrier research:** KFF Survey; Divi et al., 2007; Karliner et al., Annals of Internal Medicine
+- **Transcripts:** [ACI-Bench](https://huggingface.co/datasets/mkieffer/ACI-Bench) (207 clinical dialogues, Nature Scientific Data, 2023) and [PriMock57](https://github.com/babylonhealth/PriMock57) (57 mock primary care consultations by Babylon Health clinicians)
+- **Research:** Kessels 2003 (JRSM), Watson & McKinstry 2009 (JRSM), KFF Survey, Divi et al. 2007, Karliner et al. (Annals of Internal Medicine)
 
 ---
 
@@ -153,8 +149,8 @@ src/
 git clone https://github.com/codemasterbrown7/sanctuary-carelink.git
 cd sanctuary-carelink
 npm install
-cp .env.example .env.local  # Fill in API keys
+cp .env.example .env.local  # fill in your API keys
 npm run dev
 ```
 
-Required environment variables — see `.env.example` for the full list.
+See `.env.example` for the required env vars.
