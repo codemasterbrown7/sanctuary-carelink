@@ -9,22 +9,22 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <GuideCard step="Welcome" title="Careflow Demo — How S5 Content Gets to Patients" variant="info">
+      <GuideCard step="Welcome" title="Careflow — A New Way to Use S5's Content Library" variant="info">
         <p>
-          This demo shows how <strong>Careflow</strong> and <strong>S5</strong> could work together as one integrated product.
-          The educational content S5 already has gets delivered to patients automatically, matched to their specific diagnosis,
-          as part of the post-consultation workflow.
+          S5 has built a large library of clinically verified educational content, all tagged with ICD-10 codes.
+          Right now, that content sits in S5. <strong>Careflow shows how it could be put to work</strong> — delivered
+          directly to patients, matched to their specific diagnosis, as part of the post-consultation workflow.
         </p>
         <p>
           <strong>The full loop:</strong> A GP has a consultation &rarr; Careflow extracts structured clinical data from
-          the transcript &rarr; matches it to the right educational content via ICD-10 codes &rarr; generates a personalised
+          the transcript &rarr; matches educational content from S5 via ICD-10 codes &rarr; generates a personalised
           care summary &rarr; delivers everything to the patient via email, SMS, and a voice agent they can call with follow-up questions.
           All in the patient&apos;s language.
         </p>
         <p className="text-xs opacity-75 mt-2">
           <strong>Why this matters:</strong> 40-80% of medical information is forgotten immediately after a consultation (Kessels, 2003, JRSM).
           3 in 10 patients with limited English proficiency have difficulty understanding their provider&apos;s instructions (KFF Survey).
-          Careflow addresses both problems while saving GP time on documentation.
+          Careflow addresses both — and gives S5&apos;s content a direct route to the patients who need it.
         </p>
       </GuideCard>
 
