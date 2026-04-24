@@ -143,6 +143,34 @@ src/
 
 ---
 
+## Future work
+
+Things I'd build next if this moved beyond a demo:
+
+**Security and compliance**
+- End-to-end encryption for patient data in transit and at rest
+- Role-based access control, so only the treating clinician can view a patient's consultation
+- Audit logging for every access and action (who viewed what, when)
+- GDPR-compliant data retention and deletion flows
+- NHS DTAC assessment and clinical safety case (DCB0129)
+
+**AI screening calls**
+- Before the consultation, an AI agent calls the patient to collect symptoms, medical history, and current medications
+- The GP gets a structured pre-consultation summary, so they walk into the appointment already up to speed
+- Reduces time spent on history-taking during the consultation itself
+
+**AI appointment booking**
+- After generating the care summary, the system books the follow-up appointment automatically
+- Integrates with the practice's booking system so the patient gets a confirmed slot, not just "call reception to book"
+- Sends calendar invites and reminders in the patient's language
+
+**Deeper S5 integration**
+- Connect to the real S5 API instead of matching YouTube videos by ICD-10 code
+- Pull in Sanctuary's clinically verified content directly, with proper licensing and access control
+- Track which videos the patient actually watched, so the GP knows what they've engaged with
+
+---
+
 ## Running locally
 
 ```bash
