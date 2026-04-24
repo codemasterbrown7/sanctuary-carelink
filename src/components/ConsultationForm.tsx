@@ -231,12 +231,16 @@ export default function ConsultationForm() {
   return (
     <form onSubmit={handleSubmit} className="emis-form">
       {/* ── Step 1: Choose a demo scenario ──────────── */}
-      <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
-        <p className="text-xs font-semibold text-amber-800 mb-0.5">Step 1 &mdash; Choose a demo scenario</p>
-        <p className="text-xs text-amber-700 mb-2">
-          Each uses a real consultation transcript from published research datasets. This pre-fills the patient details and transcript below.
+      <div className="bg-amber-50 border-b-2 border-amber-300 px-5 py-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="inline-flex items-center justify-center w-7 h-7 bg-amber-600 text-white text-sm font-bold">1</span>
+          <span className="text-base font-bold text-amber-900">Choose a scenario &amp; enter your phone number</span>
+          <span className="text-sm text-amber-500 font-medium ml-auto">Step 1 of 5</span>
+        </div>
+        <p className="text-sm text-amber-700 mb-3 ml-9">
+          Each uses a real consultation transcript from published research datasets. Your email is pre-filled — just add your phone number so the SMS reaches you.
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 ml-9">
           {DEMO_SCENARIOS.map((s, i) => (
             <button
               key={i}
@@ -247,7 +251,7 @@ export default function ConsultationForm() {
                 setExtracted(null);
                 setEditableExtracted(null);
               }}
-              className="px-4 py-2 bg-[#005eb8] hover:bg-[#003d78] text-white text-sm font-medium transition-colors"
+              className="px-5 py-2.5 bg-[#005eb8] hover:bg-[#003d78] text-white text-sm font-semibold transition-colors"
             >
               {s.condition}
             </button>
@@ -284,7 +288,7 @@ export default function ConsultationForm() {
               placeholder="+44 your number here"
             />
             {contact.patientName && !contact.patientPhone && (
-              <p className="text-[10px] text-amber-600 mt-1">Step 2 &mdash; Enter your phone number so the SMS notification reaches you</p>
+              <p className="text-xs text-amber-600 mt-1 font-medium">Enter your phone number so the SMS notification reaches you</p>
             )}
           </div>
           <div>
@@ -324,12 +328,19 @@ export default function ConsultationForm() {
         />
         <div className="mt-3">
           {transcript.trim() && !extracted && contact.patientPhone.trim() && (
-            <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2 mb-2">
-              Step 3 &mdash; Click below to have Claude extract structured clinical data (diagnosis, ICD-10 codes, medications, plan) from the transcript.
-            </p>
+            <div className="bg-amber-50 border-2 border-amber-300 px-4 py-3 mb-3">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-flex items-center justify-center w-7 h-7 bg-amber-600 text-white text-sm font-bold">2</span>
+                <span className="text-base font-bold text-amber-900">Process the transcript</span>
+                <span className="text-sm text-amber-500 font-medium ml-auto">Step 2 of 5</span>
+              </div>
+              <p className="text-sm text-amber-700 ml-9">
+                Claude will extract the diagnosis, ICD-10 codes, medications, care plan, and safety netting from the transcript.
+              </p>
+            </div>
           )}
           {transcript.trim() && !contact.patientPhone.trim() && (
-            <p className="text-xs text-red-700 bg-red-50 border border-red-200 px-3 py-2 mb-2">
+            <p className="text-sm text-red-700 bg-red-50 border-2 border-red-300 px-4 py-3 mb-3 font-medium">
               Please enter your phone number above before processing — it&apos;s needed to send you the SMS notification later.
             </p>
           )}
@@ -359,12 +370,19 @@ export default function ConsultationForm() {
       {/* ── Section C: Extracted Data ─────────── */}
       {editableExtracted && (
         <div className="animate-fade-in">
-          <div className="px-4 pt-3 pb-1">
-            <p className="text-xs text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2">
-              Step 4 &mdash; Claude extracted all of this from the transcript. The GP reviews and can edit anything before saving.
-              The ICD-10 codes determine which educational videos from S5&apos;s library are matched to this patient.
-              When ready, click <strong>&ldquo;Save &amp; Match Content&rdquo;</strong> at the bottom.
-            </p>
+          <div className="px-4 pt-4 pb-1">
+            <div className="bg-amber-50 border-2 border-amber-300 px-4 py-3">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-flex items-center justify-center w-7 h-7 bg-amber-600 text-white text-sm font-bold">3</span>
+                <span className="text-base font-bold text-amber-900">Review extracted data &amp; save</span>
+                <span className="text-sm text-amber-500 font-medium ml-auto">Step 3 of 5</span>
+              </div>
+              <p className="text-sm text-amber-700 ml-9">
+                Claude extracted all of this from the transcript. The GP can review and edit anything before saving.
+                The ICD-10 codes determine which educational videos from S5&apos;s library are matched to this patient.
+                Click <strong>&ldquo;Save &amp; Match Content&rdquo;</strong> at the bottom when ready.
+              </p>
+            </div>
           </div>
           {/* Diagnosis */}
           <div className="emis-section">

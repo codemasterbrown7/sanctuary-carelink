@@ -191,7 +191,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
               Topics: {matchedContent.metadata.topicsIncluded.map(t => TOPIC_LABELS[t] || t).join(', ')}
             </span>
           </div>
-          <p className="text-xs text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2">
+          <p className="text-sm text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2">
             These videos were matched using ICD-10 codes from the transcript — the same matching logic as S5&apos;s content API.
             In production, these would be real Sanctuary videos instead of YouTube placeholders.
           </p>
@@ -278,9 +278,16 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
             </div>
             <div className="space-y-3">
               {!c.careSummary && (
-                <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2">
-                  Step 5 &mdash; Claude writes a plain-language care summary from the transcript, at an 8th-grade reading level.
-                </p>
+                <div className="bg-amber-50 border-2 border-amber-300 px-4 py-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="inline-flex items-center justify-center w-7 h-7 bg-amber-600 text-white text-sm font-bold">4</span>
+                    <span className="text-base font-bold text-amber-900">Generate care summary</span>
+                    <span className="text-sm text-amber-500 font-medium ml-auto">Step 4 of 5</span>
+                  </div>
+                  <p className="text-sm text-amber-700 ml-9">
+                    Claude writes a plain-language care summary from the transcript, at an 8th-grade reading level.
+                  </p>
+                </div>
               )}
               <button
                 onClick={generateSummary}
@@ -302,12 +309,20 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                 )}
               </button>
               {c.careSummary && c.status !== 'notification_sent' && (
-                <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2">
-                  Step 6 &mdash; Send the care summary, matched videos, and follow-up info to the patient via SMS and email.
-                  {c.patientLanguage && c.patientLanguage !== 'en' && (
-                    <span> The entire email will be translated into {c.patientLanguage}.</span>
-                  )}
-                </p>
+                <div className="bg-amber-50 border-2 border-amber-300 px-4 py-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="inline-flex items-center justify-center w-7 h-7 bg-amber-600 text-white text-sm font-bold">5</span>
+                    <span className="text-base font-bold text-amber-900">Send to patient</span>
+                    <span className="text-sm text-amber-500 font-medium ml-auto">Step 5 of 5</span>
+                  </div>
+                  <p className="text-sm text-amber-700 ml-9">
+                    Send the care summary, matched videos, and follow-up info to the patient via SMS and email.
+                    In production, this fires automatically ~2 hours after the consultation.
+                    {c.patientLanguage && c.patientLanguage !== 'en' && (
+                      <span> The entire email will be translated into {c.patientLanguage}.</span>
+                    )}
+                  </p>
+                </div>
               )}
               <button
                 onClick={sendNotification}
@@ -348,18 +363,21 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
           {/* Guide: after notification sent */}
           {c.status === 'notification_sent' && (
-            <div className="bg-amber-50 border border-amber-200 p-4 space-y-2">
-              <p className="text-xs font-semibold text-amber-800">Step 7 &mdash; Check your phone and email</p>
-              <p className="text-xs text-amber-700">
+            <div className="bg-green-50 border-2 border-green-300 px-4 py-3 space-y-2">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-flex items-center justify-center w-7 h-7 bg-green-600 text-white text-sm font-bold">&check;</span>
+                <span className="text-base font-bold text-green-900">Done — check your phone and email</span>
+              </div>
+              <p className="text-sm text-green-700 ml-9">
                 You should have received an SMS with a link and an HTML email with the care summary, medications, follow-up info,
                 safety netting, and all matched videos.
               </p>
-              <p className="text-xs text-amber-700">
-                Open the patient page below to see what the patient sees — including a phone number for an AI voice agent
+              <p className="text-sm text-green-700 ml-9">
+                Open the patient page to see what the patient sees — including a phone number for an AI voice agent
                 that knows the full consultation context.
               </p>
-              <p className="text-xs">
-                <a href={`/patient/${id}`} className="font-semibold text-[#005eb8] underline">
+              <p className="ml-9">
+                <a href={`/patient/${id}`} className="text-sm font-bold text-[#005eb8] underline">
                   Open Patient View &rarr;
                 </a>
               </p>
