@@ -184,8 +184,18 @@ export default function PatientPage({ params }: { params: Promise<{ id: string }
         );
       })}
 
+      {/* Guide: try calling */}
+      <div className="bg-amber-50 border-2 border-amber-300 px-4 py-3 mt-8">
+        <p className="text-base font-bold text-amber-900 mb-1">Try calling the AI voice agent</p>
+        <p className="text-sm text-amber-700">
+          Call the number below and ask it questions about the consultation — for example,
+          &ldquo;What therapy did the doctor recommend?&rdquo; or &ldquo;What are my medication instructions?&rdquo;.
+          The agent loads the full consultation context before the call even starts, so it knows everything the doctor discussed.
+        </p>
+      </div>
+
       {/* Callback CTA */}
-      <div className="bg-primary text-white p-6 text-center mt-8 mb-8">
+      <div className="bg-primary text-white p-6 text-center mt-4 mb-8">
         <h2 className="text-lg font-semibold mb-2">Have Questions?</h2>
         <p className="text-sm text-white/80 mb-4">
           Call our AI health companion anytime. It knows about your consultation and can answer questions about your diagnosis, medications, and care plan.

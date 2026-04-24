@@ -322,6 +322,10 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                       <span> The entire email will be translated into {c.patientLanguage}.</span>
                     )}
                   </p>
+                  <p className="text-sm text-amber-700 ml-9 mt-1">
+                    After sending, try <strong>calling the AI voice agent</strong> from the patient page — it knows the full
+                    consultation context and can answer questions about the diagnosis, medications, and care plan.
+                  </p>
                 </div>
               )}
               <button
@@ -373,8 +377,10 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                 safety netting, and all matched videos.
               </p>
               <p className="text-sm text-green-700 ml-9">
-                Open the patient page to see what the patient sees — including a phone number for an AI voice agent
-                that knows the full consultation context.
+                Open the patient page to see what the patient sees. At the bottom, there&apos;s a phone number for
+                an <strong>AI voice agent</strong> — try calling it and asking questions about the consultation
+                (e.g. &ldquo;What therapy did the doctor recommend?&rdquo; or &ldquo;What are my medication instructions?&rdquo;).
+                It knows the full consultation context.
               </p>
               <p className="ml-9">
                 <a href={`/patient/${id}`} className="text-sm font-bold text-[#005eb8] underline">
