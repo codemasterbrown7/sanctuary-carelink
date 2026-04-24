@@ -323,15 +323,20 @@ export default function ConsultationForm() {
           onTranscriptChange={setTranscript}
         />
         <div className="mt-3">
-          {transcript.trim() && !extracted && (
+          {transcript.trim() && !extracted && contact.patientPhone.trim() && (
             <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2 mb-2">
               Step 3 &mdash; Click below to have Claude extract structured clinical data (diagnosis, ICD-10 codes, medications, plan) from the transcript.
+            </p>
+          )}
+          {transcript.trim() && !contact.patientPhone.trim() && (
+            <p className="text-xs text-red-700 bg-red-50 border border-red-200 px-3 py-2 mb-2">
+              Please enter your phone number above before processing — it&apos;s needed to send you the SMS notification later.
             </p>
           )}
           <button
             type="button"
             onClick={processTranscript}
-            disabled={extracting || !transcript.trim()}
+            disabled={extracting || !transcript.trim() || !contact.patientPhone.trim()}
             className="w-full py-3 px-4 bg-[#005eb8] hover:bg-[#003d78] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {extracting ? (
