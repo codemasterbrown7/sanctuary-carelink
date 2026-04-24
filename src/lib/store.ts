@@ -1,4 +1,5 @@
 import { Consultation } from './mock-api/types';
+import { normalizePhone } from './phone';
 
 type ConsultationInput = Omit<Consultation, 'id' | 'status' | 'createdAt' | 'updatedAt' | 'careSummary' | 'matchedVideoIds'>;
 
@@ -22,6 +23,7 @@ export async function createConsultation(data: ConsultationInput): Promise<Consu
   const consultation: Consultation = {
     ...data,
     id,
+    patientPhone: normalizePhone(data.patientPhone),
     status: 'created',
     careSummary: null,
     matchedVideoIds: [],
@@ -102,12 +104,13 @@ export async function listConsultations(): Promise<Consultation[]> {
 }
 
 export async function getConsultationByPhone(phone: string): Promise<Consultation | undefined> {
+  const normalized = normalizePhone(phone);
   if (useDatabase()) {
     const db = await getDb();
     const { data, error } = await db
       .from('consultations')
       .select('data')
-      .eq('patient_phone', phone)
+      .eq('patient_phone', normalized)
       .order('created_at', { ascending: false })
       .limit(1)
       .single();
@@ -115,6 +118,6 @@ export async function getConsultationByPhone(phone: string): Promise<Consultatio
     return data.data as Consultation;
   }
   return Array.from(memoryStore.values())
-    .filter(c => c.patientPhone === phone)
+    .filter(c => c.patientPhone === normalized)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
 }

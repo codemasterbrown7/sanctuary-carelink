@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { getConsultationByPhone, getConsultation } from '@/lib/store';
 import { matchContent } from '@/lib/content-matcher';
+import { normalizePhone } from '@/lib/phone';
 
 function buildSystemPrompt(consultation: {
   patientName: string;
@@ -88,6 +89,11 @@ export async function POST(request: NextRequest) {
   }
   if (!consultationId) {
     consultationId = request.nextUrl.searchParams.get('consultationId') || '';
+  }
+
+  // Normalize the caller phone so it matches regardless of format
+  if (callerPhone) {
+    callerPhone = normalizePhone(callerPhone);
   }
 
   let consultation;
