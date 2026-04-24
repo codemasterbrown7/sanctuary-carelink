@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from 'react';
 import ContentCard from '@/components/ContentCard';
+import GuideCard from '@/components/GuideCard';
 import { demoConfig } from '@/config/demo';
 import type { Consultation, HealthVideo } from '@/lib/mock-api/types';
 
@@ -71,6 +72,33 @@ export default function PatientPage({ params }: { params: Promise<{ id: string }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
+      <GuideCard step="Patient View" title="This is what the patient receives" variant="info">
+        <p>
+          This page is what the patient sees when they click the link in their SMS or email.
+          It contains their care summary, medications, follow-up date, safety information,
+          and all the educational videos matched to their diagnosis.
+        </p>
+        {c.patientLanguage && c.patientLanguage !== 'en' && (
+          <p>
+            Because this patient&apos;s language is set to <strong>{c.patientLanguage}</strong>,
+            the care summary is generated in {c.patientLanguage}. The email they received is also
+            fully translated — every heading, label, and piece of content.
+          </p>
+        )}
+        <p>
+          At the bottom of this page is a phone number for an <strong>AI voice agent</strong>.
+          When the patient calls, before the conversation even starts, ElevenLabs fires a webhook
+          to our API. We look up the patient by their phone number, load the full consultation
+          context — diagnosis, medications, care plan, transcript — and inject it as the system prompt.
+          The agent greets them by name, in their language, from the very first word.
+        </p>
+        <p>
+          For example, if the patient forgot the specific type of therapy the doctor recommended,
+          or can&apos;t remember their medication instructions, they can call this number instead of
+          having to ring the GP practice — which saves time for both the patient and the practice.
+        </p>
+      </GuideCard>
+
       {/* Greeting */}
       <div className="mb-8">
         <h1 className="text-xl font-semibold text-foreground">

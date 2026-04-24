@@ -137,8 +137,8 @@ Doctor: Alright, so my nurse will be in with those orders and we will see you ne
     condition: 'Generalised Anxiety Disorder',
     contact: {
       patientName: 'Ms Valerie Cole',
-      patientPhone: '+447983665987',
-      patientEmail: 'lucas@tfest.ai',
+      patientPhone: '',
+      patientEmail: 'jack@sanctuaryhealth.io',
       patientLanguage: 'Spanish',
     },
     transcript: `Doctor: Hi there, I'm Doctor Smith. What can I do for you today?

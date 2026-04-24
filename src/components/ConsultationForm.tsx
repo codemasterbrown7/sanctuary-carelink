@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ExtractedConsultation } from '@/lib/claude';
 import { DEMO_SCENARIOS } from '@/lib/demo-transcripts';
+import GuideCard from '@/components/GuideCard';
 
 // ── Demo fill button ─────────────────────────────────────────
 function DemoFill({ onClick }: { onClick: () => void }) {
@@ -258,8 +259,20 @@ export default function ConsultationForm() {
             <input className="emis-input" required value={contact.patientName} onChange={e => updateContact('patientName', e.target.value)} placeholder="Mrs Maria Garcia" />
           </div>
           <div>
-            <label className="emis-label">Phone</label>
-            <input className="emis-input" type="tel" required value={contact.patientPhone} onChange={e => updateContact('patientPhone', e.target.value)} placeholder="07700 900 123" />
+            <label className="emis-label">
+              Phone
+              {contact.patientName && !contact.patientPhone && (
+                <span className="ml-1 text-[10px] text-amber-600 font-normal">&larr; enter your number</span>
+              )}
+            </label>
+            <input
+              className={`emis-input ${contact.patientName && !contact.patientPhone ? 'border-amber-400 bg-amber-50' : ''}`}
+              type="tel"
+              required
+              value={contact.patientPhone}
+              onChange={e => updateContact('patientPhone', e.target.value)}
+              placeholder="+44 your number here"
+            />
           </div>
           <div>
             <label className="emis-label">Email</label>
@@ -340,6 +353,21 @@ export default function ConsultationForm() {
       {/* ── Section C: Extracted Data ─────────── */}
       {editableExtracted && (
         <div className="animate-fade-in">
+          <div className="px-4 pt-4">
+            <GuideCard step="Step 2" title="AI has extracted structured clinical data from the transcript" variant="info">
+              <p>
+                Claude read the full transcript and extracted the diagnosis, ICD-10 codes, medications, care plan,
+                follow-up date, and safety netting information. <strong>The GP reviews all of this before saving</strong> — the AI assists, the clinician decides.
+              </p>
+              <p>
+                The ICD-10 codes are what drive the content matching in the next step — they determine which
+                educational videos from S5&apos;s library get delivered to this patient.
+              </p>
+              <p>
+                When you&apos;re ready, click <strong>&ldquo;Save &amp; Match Content&rdquo;</strong> at the bottom.
+              </p>
+            </GuideCard>
+          </div>
           {/* Diagnosis */}
           <div className="emis-section">
             <div className="emis-section-header">Extracted Diagnosis</div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from 'react';
 import ContentCard from '@/components/ContentCard';
 import StatusTimeline from '@/components/StatusTimeline';
+import GuideCard from '@/components/GuideCard';
 import type { Consultation, HealthVideo } from '@/lib/mock-api/types';
 
 interface ConsultationData {
@@ -137,6 +138,23 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <GuideCard step="Step 3" title="Content has been matched — now generate the care summary" variant="info">
+        <p>
+          The system matched educational videos to this patient based on <strong>ICD-10 codes</strong> using
+          bidirectional prefix matching — the same logic as S5&apos;s <code>icd10: &#123; contains: [...] &#125;</code> GraphQL filter.
+          In production, you&apos;d swap the YouTube videos below for real Sanctuary content with a single API call to S5.
+        </p>
+        <p>
+          On the right side, you&apos;ll see the <strong>Care Pipeline</strong> — this tracks the full delivery workflow.
+          Now click <strong>&ldquo;Generate AI Care Summary&rdquo;</strong> to have Claude write a plain-language summary of the
+          consultation, written at an 8th-grade reading level in the patient&apos;s language.
+        </p>
+        <p>
+          After the summary generates, click <strong>&ldquo;Send SMS + Email Now&rdquo;</strong> to deliver everything to the patient.
+          In production, this fires automatically ~2 hours after the consultation.
+        </p>
+      </GuideCard>
+
       {/* Patient Header — NHS style */}
       <div className="bg-[#003087] text-white p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -327,6 +345,30 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                 ))}
               </div>
             </div>
+          )}
+
+          {/* Guide: after notification sent */}
+          {c.status === 'notification_sent' && (
+            <GuideCard step="Step 4" title="Notification sent — check your phone and email" variant="action">
+              <p>
+                The patient just received an <strong>SMS</strong> with a link and a full <strong>HTML email</strong> with
+                their diagnosis, care summary, medications, follow-up date, safety information, and all matched videos.
+              </p>
+              <p>
+                If the patient&apos;s language isn&apos;t English, the entire email is translated — every heading, label, and piece
+                of content — in a single Claude API call. It works for any language, not a hardcoded list.
+              </p>
+              <p>
+                Click the link in the SMS or open the patient page below to see what the patient sees.
+                At the bottom of that page, there&apos;s a phone number to call an <strong>AI voice agent</strong> that knows
+                the full consultation context.
+              </p>
+              <p>
+                <a href={`/patient/${id}`} className="font-semibold underline">
+                  Open Patient View &rarr;
+                </a>
+              </p>
+            </GuideCard>
           )}
         </div>
       </div>
