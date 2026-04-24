@@ -284,7 +284,15 @@ export default function ConsultationForm() {
               type="tel"
               required
               value={contact.patientPhone}
-              onChange={e => updateContact('patientPhone', e.target.value)}
+              onChange={e => {
+                const raw = e.target.value.replace(/[^\d+]/g, '');
+                // Auto-format: 07911 123456
+                if (raw.startsWith('0') && raw.length > 5) {
+                  updateContact('patientPhone', raw.slice(0, 5) + ' ' + raw.slice(5));
+                } else {
+                  updateContact('patientPhone', raw);
+                }
+              }}
               placeholder="07911 123456"
             />
             {contact.patientName && !contact.patientPhone && (
