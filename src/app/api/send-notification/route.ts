@@ -5,6 +5,9 @@ import { demoConfig } from '@/config/demo';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
+  if (!body.consultationId) {
+    return Response.json({ error: 'Missing consultationId' }, { status: 400 });
+  }
   const consultation = await getConsultation(body.consultationId);
 
   if (!consultation) {

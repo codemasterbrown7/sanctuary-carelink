@@ -108,7 +108,14 @@ Rules:
 
   const data = await response.json();
   const text = data.content[0]?.text || '';
-  const cleaned = text.replace(/^```json?\n?/, '').replace(/\n?```$/, '').trim();
+  // Strip markdown code fences and any text before/after the JSON
+  let cleaned = text.trim();
+  // Remove everything before the first { and after the last }
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace = cleaned.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace !== -1) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+  }
   return JSON.parse(cleaned);
 }
 

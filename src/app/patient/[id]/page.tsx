@@ -156,7 +156,7 @@ export default function PatientPage({ params }: { params: Promise<{ id: string }
       {c.plan && (
         <div className="bg-primary-light/50 border border-primary/20 p-5 mb-8">
           <h3 className="text-sm font-semibold text-primary-dark mb-2">Your Care Plan</h3>
-          <p className="text-sm text-primary-dark leading-relaxed">{c.plan}</p>
+          <p className="text-sm text-primary-dark leading-relaxed whitespace-pre-line">{c.plan}</p>
         </div>
       )}
 
@@ -164,7 +164,7 @@ export default function PatientPage({ params }: { params: Promise<{ id: string }
       {c.safetyNetting && (
         <div className="bg-red-50 border border-red-200 p-5 mb-8">
           <h3 className="text-sm font-semibold text-red-800 mb-2">Important Safety Information</h3>
-          <p className="text-sm text-red-700 leading-relaxed">{c.safetyNetting}</p>
+          <p className="text-sm text-red-700 leading-relaxed whitespace-pre-line">{c.safetyNetting}</p>
         </div>
       )}
 
