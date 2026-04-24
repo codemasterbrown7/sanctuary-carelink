@@ -230,13 +230,11 @@ export default function ConsultationForm() {
 
   return (
     <form onSubmit={handleSubmit} className="emis-form">
-      {/* ── Demo Scenario Selector ──────────── */}
-      <div className="bg-amber-50 border border-amber-200 p-4">
-        <p className="text-sm font-semibold text-amber-900 mb-2">Choose a demo scenario</p>
-        <p className="text-xs text-amber-700 mb-3">
-          Each scenario uses a real consultation transcript from published research datasets (ACI-Bench, PriMock57).
-          It will pre-fill the patient details and transcript — just add your phone number.
-          Try changing the <strong>Language</strong> dropdown to see the care summary and email delivered in any language — similar to how S5&apos;s content supports multiple languages.
+      {/* ── Step 1: Choose a demo scenario ──────────── */}
+      <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
+        <p className="text-xs font-semibold text-amber-800 mb-0.5">Step 1 &mdash; Choose a demo scenario</p>
+        <p className="text-xs text-amber-700 mb-2">
+          Each uses a real consultation transcript from published research datasets. This pre-fills the patient details and transcript below.
         </p>
         <div className="flex flex-wrap gap-2">
           {DEMO_SCENARIOS.map((s, i) => (
@@ -261,6 +259,9 @@ export default function ConsultationForm() {
       <div className="emis-banner">
         <div className="mb-2">
           <span className="text-[10px] uppercase tracking-wider text-blue-200">Patient Contact Details</span>
+          <p className="text-xs text-blue-200 mt-1 font-normal">
+            In production, a GP has this open alongside their existing system. All they enter is the patient&apos;s contact info — the transcription handles everything else.
+          </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div>
@@ -282,6 +283,9 @@ export default function ConsultationForm() {
               onChange={e => updateContact('patientPhone', e.target.value)}
               placeholder="+44 your number here"
             />
+            {contact.patientName && !contact.patientPhone && (
+              <p className="text-[10px] text-amber-600 mt-1">Step 2 &mdash; Enter your phone number so the SMS notification reaches you</p>
+            )}
           </div>
           <div>
             <label className="emis-label">Email</label>
@@ -305,6 +309,7 @@ export default function ConsultationForm() {
               <option value="Punjabi">Punjabi</option>
               <option value="Chinese">Chinese</option>
             </select>
+            <p className="text-[10px] text-blue-200 mt-1">Try changing this — the care summary and email are translated into any language, similar to S5&apos;s multi-language content.</p>
           </div>
         </div>
       </div>
@@ -312,11 +317,17 @@ export default function ConsultationForm() {
       {/* ── Section B: Transcript ──────────────── */}
       <div className="emis-section">
         <div className="emis-section-header">Consultation Transcript</div>
+        <p className="text-xs text-gray-500 mb-2">In production, the consultation is recorded and transcribed in real time using Deepgram. For this demo, a real transcript has been pre-filled above.</p>
         <TranscriptRecorder
           transcript={transcript}
           onTranscriptChange={setTranscript}
         />
         <div className="mt-3">
+          {transcript.trim() && !extracted && (
+            <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2 mb-2">
+              Step 3 &mdash; Click below to have Claude extract structured clinical data (diagnosis, ICD-10 codes, medications, plan) from the transcript.
+            </p>
+          )}
           <button
             type="button"
             onClick={processTranscript}
@@ -343,20 +354,12 @@ export default function ConsultationForm() {
       {/* ── Section C: Extracted Data ─────────── */}
       {editableExtracted && (
         <div className="animate-fade-in">
-          <div className="px-4 pt-4">
-            <GuideCard step="Step 2" title="AI has extracted structured clinical data from the transcript" variant="info">
-              <p>
-                Claude read the full transcript and extracted the diagnosis, ICD-10 codes, medications, care plan,
-                follow-up date, and safety netting information. <strong>The GP reviews all of this before saving</strong> — the AI assists, the clinician decides.
-              </p>
-              <p>
-                The ICD-10 codes are what drive the content matching in the next step — they determine which
-                educational videos from S5&apos;s library get delivered to this patient.
-              </p>
-              <p>
-                When you&apos;re ready, click <strong>&ldquo;Save &amp; Match Content&rdquo;</strong> at the bottom.
-              </p>
-            </GuideCard>
+          <div className="px-4 pt-3 pb-1">
+            <p className="text-xs text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2">
+              Step 4 &mdash; Claude extracted all of this from the transcript. The GP reviews and can edit anything before saving.
+              The ICD-10 codes determine which educational videos from S5&apos;s library are matched to this patient.
+              When ready, click <strong>&ldquo;Save &amp; Match Content&rdquo;</strong> at the bottom.
+            </p>
           </div>
           {/* Diagnosis */}
           <div className="emis-section">

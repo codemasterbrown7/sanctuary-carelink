@@ -28,22 +28,6 @@ export default function DashboardPage() {
         </p>
       </GuideCard>
 
-      <GuideCard step="Step 1" title="Start here — choose a scenario and enter your phone number" variant="action">
-        <p>
-          This is the <strong>clinician view</strong> — a lightweight app the GP has open alongside their existing system.
-          All they need to enter is the patient&apos;s name, phone, email, and language. The consultation is recorded and
-          transcribed in real time using Deepgram — the transcription does the rest.
-        </p>
-        <p>
-          Choose one of the <strong>demo scenarios</strong> below — each uses a real consultation transcript
-          from published research datasets. Your email is pre-filled. <strong>Enter your phone number</strong> so
-          the SMS notification reaches you.
-        </p>
-        <p>
-          Then click <strong>&ldquo;Process Transcript&rdquo;</strong> to see the AI extract structured clinical data.
-        </p>
-      </GuideCard>
-
       <div className="bg-card border border-border overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 bg-[#003087] text-white">
           <div>
