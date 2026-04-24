@@ -236,6 +236,7 @@ export default function ConsultationForm() {
         <p className="text-xs text-amber-700 mb-3">
           Each scenario uses a real consultation transcript from published research datasets (ACI-Bench, PriMock57).
           It will pre-fill the patient details and transcript — just add your phone number.
+          Try changing the <strong>Language</strong> dropdown to see the care summary and email delivered in any language — similar to how S5&apos;s content supports multiple languages.
         </p>
         <div className="flex flex-wrap gap-2">
           {DEMO_SCENARIOS.map((s, i) => (
@@ -250,7 +251,7 @@ export default function ConsultationForm() {
               }}
               className="px-4 py-2 bg-[#005eb8] hover:bg-[#003d78] text-white text-sm font-medium transition-colors"
             >
-              {s.condition} ({s.contact.patientLanguage === 'en' ? 'English' : s.contact.patientLanguage})
+              {s.condition}
             </button>
           ))}
         </div>

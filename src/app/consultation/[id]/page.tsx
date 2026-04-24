@@ -152,6 +152,8 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
         <p>
           After the summary generates, click <strong>&ldquo;Send SMS + Email Now&rdquo;</strong> to deliver everything to the patient.
           In production, this fires automatically ~2 hours after the consultation.
+          If the patient&apos;s language isn&apos;t English, the entire email and care summary are translated automatically —
+          similar to how S5&apos;s content supports multiple languages, but applied to the personalised output too.
         </p>
       </GuideCard>
 

@@ -23,7 +23,7 @@ export const DEMO_SCENARIOS: DemoScenario[] = [
       patientName: 'Mr Richard Wells',
       patientPhone: '',
       patientEmail: 'jack@sanctuaryhealth.io',
-      patientLanguage: 'Spanish',
+      patientLanguage: 'en',
     },
     transcript: `Doctor: Hi Richard, how are you? The medical assistant told me that you have a tick bite, is that what happened?
 Patient: I really don't know where I got it but I do get out in the woods and I do spend a lot of time out in the yard. But yeah, I've got a tick bite around my knee and it's been over a week and it just burns and is quite annoying.
@@ -88,7 +88,7 @@ Doctor: Well, you know where to find me. Take care. Bye.`,
       patientName: 'Mr Philip Anderson',
       patientPhone: '',
       patientEmail: 'jack@sanctuaryhealth.io',
-      patientLanguage: 'Polish',
+      patientLanguage: 'en',
     },
     transcript: `Doctor: Hey Philip, good to see you today. So take a look here at my notes, I see you're coming in for some right knee pain and you have a past medical history of hypertension, so we'll take a look at that. Can you tell me what happened to your knee?
 Patient: Yeah I was just doing some work on my property and I accidentally slipped and fell down and I'm still having some knee issues.
@@ -139,7 +139,7 @@ Doctor: Alright, so my nurse will be in with those orders and we will see you ne
       patientName: 'Ms Valerie Cole',
       patientPhone: '',
       patientEmail: 'jack@sanctuaryhealth.io',
-      patientLanguage: 'Spanish',
+      patientLanguage: 'en',
     },
     transcript: `Doctor: Hi there, I'm Doctor Smith. What can I do for you today?
 Patient: I've been feeling really anxious over the past few months. I just get really nervous every morning about leaving the house, and it's started to really worry me, and just add up, and build up on that anxiety. And I just didn't know who to talk to, so I wanted to check with my GP.
