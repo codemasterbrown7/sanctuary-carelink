@@ -1,6 +1,6 @@
 # Sanctuary Careflow
 
-A working demo showing how S5's educational content library could be delivered directly to patients after GP consultations - matched to their diagnosis, translated into their language, and accessible through a voice agent they can call with questions.
+A working demo showing how S5's educational content library could be delivered directly to patients after GP consultations, matched to their diagnosis, translated into their language, and accessible through a voice agent they can call with questions.
 
 **Live demo:** [sanctuary-health-careflow-s5-demo.vercel.app](https://sanctuary-health-careflow-s5-demo.vercel.app)
 
@@ -15,7 +15,7 @@ A GP has a consultation. The conversation is transcribed (via Deepgram in produc
 3. Claude generates a care summary in plain English (or whatever language the patient speaks)
 4. The patient gets an SMS, a full HTML email, and a phone number for a voice agent that knows their entire consultation
 
-The voice agent bit is probably the most interesting part technically. When the patient calls, ElevenLabs fires a webhook to our API *before* the conversation starts. We look up the patient by phone number, load the full consultation context - diagnosis, meds, transcript, everything - and inject it as the system prompt. So the agent greets them by name, in their language, from the first word. No "let me look that up" delays.
+The voice agent bit is probably the most interesting part technically. When the patient calls, ElevenLabs fires a webhook to our API *before* the conversation starts. We look up the patient by phone number, load the full consultation context (diagnosis, meds, transcript, everything) and inject it as the system prompt. So the agent greets them by name, in their language, from the first word. No "let me look that up" delays.
 
 ---
 
@@ -28,7 +28,7 @@ I was looking into what happens after a GP consultation and the stats are bad:
 
 S5 already has a library of clinically verified educational content, all tagged with ICD-10 codes. It's sitting there. Careflow is basically a pipeline to get that content to the patients who actually need it, at the right time, in their language.
 
-It also saves GPs time - the care summary, safety netting, follow-up instructions are all generated from the transcript. The GP reviews and clicks send instead of writing it all up manually.
+It also saves GPs time because the care summary, safety netting, and follow-up instructions are all generated from the transcript. The GP reviews and clicks send instead of writing it all up manually.
 
 ---
 
@@ -36,9 +36,9 @@ It also saves GPs time - the care summary, safety netting, follow-up instruction
 
 ### Research
 
-I kicked off about 23 parallel research threads using Claude sub-agents. Each one was investigating a different angle - patient recall literature, NHS digital health workflows, voice AI in healthcare, content delivery, that kind of thing. I told each agent to follow rabbit holes rather than just surface-level research, and if they found something interesting, to spawn another thread to go deeper.
+I kicked off about 23 parallel research threads using Claude sub-agents. Each one was investigating a different angle, things like patient recall literature, NHS digital health workflows, voice AI in healthcare, content delivery, that kind of thing. I told each agent to follow rabbit holes rather than just surface-level research, and if they found something interesting, to spawn another thread to go deeper.
 
-Once all of that came back, I went through the results and decided to build a post-consultation care delivery system - it seemed like the most useful thing I could demo.
+Once all of that came back, I went through the results and decided to build a post-consultation care delivery system since it seemed like the most useful thing I could demo.
 
 ### Digging into S5
 
@@ -50,14 +50,14 @@ I don't have access to the actual S5 API, so the demo pulls YouTube videos tagge
 
 Built the whole thing in one session. A few things worth noting:
 
-- The form is transcript-first - the GP doesn't fill in diagnosis fields manually. They enter the patient's contact details, the transcript comes from Deepgram, and Claude extracts everything else. The GP just reviews and corrects if needed.
+- The form is transcript-first, so the GP doesn't fill in diagnosis fields manually. They enter the patient's contact details, the transcript comes from Deepgram, and Claude extracts everything else. The GP just reviews and corrects if needed.
 - I used real consultation transcripts from published research datasets (ACI-Bench and PriMock57) instead of writing fake ones.
 - Phone numbers get normalised to E.164 on save and on lookup. Learned this the hard way when someone entered `07xxx` in the form but ElevenLabs sent `+44xxx` as the caller ID and the voice agent couldn't find them.
-- Translation isn't a hardcoded language list. One Claude API call translates the entire email - every heading, label, patient data - into whatever language the patient has set. Works for any language.
+- Translation isn't a hardcoded language list. One Claude API call translates the entire email (every heading, label, patient data) into whatever language the patient has set. Works for any language.
 
 ### Testing
 
-Ran through the full pipeline end-to-end with each demo scenario (diabetes, hypertension, anxiety) - form submission through to receiving the SMS, opening the email, and calling the voice agent. Tested on mobile and desktop. Broke the phone matching, fixed it, broke it again with a different format, then added proper normalisation.
+Ran through the full pipeline end-to-end with each demo scenario (diabetes, hypertension, anxiety), from form submission through to receiving the SMS, opening the email, and calling the voice agent. Tested on mobile and desktop. Broke the phone matching, fixed it, broke it again with a different format, then added proper normalisation.
 
 ---
 
@@ -67,7 +67,7 @@ Ran through the full pipeline end-to-end with each demo scenario (diabetes, hype
 |---|---|
 | Framework | Next.js 16, TypeScript, Tailwind CSS 4 |
 | Database | Supabase (PostgreSQL) |
-| AI | Claude (Anthropic) - extraction, summarisation, translation |
+| AI | Claude (Anthropic) for extraction, summarisation, translation |
 | Transcription | Deepgram |
 | SMS | Twilio |
 | Email | Resend |
