@@ -30,8 +30,9 @@ export default function DashboardPage() {
 
       <GuideCard step="Step 1" title="Start here — fill in patient details and a transcript" variant="action">
         <p>
-          This is the <strong>clinician view</strong> — designed to sit inside the workflow a GP already uses (e.g. EMIS Web).
-          In production, the system would record and transcribe the consultation in real time using Deepgram. The GP wouldn&apos;t need to type anything.
+          This is the <strong>clinician view</strong> — a lightweight app the GP has open alongside their existing system.
+          All they need to enter is the patient&apos;s name, phone, email, and language. The consultation is recorded and
+          transcribed in real time using Deepgram — the transcription does the rest.
         </p>
         <p>
           For this demo, click the <strong>&ldquo;Anxiety&rdquo;</strong> button in the blue banner to pre-fill with a real consultation
