@@ -3,7 +3,6 @@
 import { useState, useEffect, use } from 'react';
 import ContentCard from '@/components/ContentCard';
 import StatusTimeline from '@/components/StatusTimeline';
-import GuideCard from '@/components/GuideCard';
 import type { Consultation, HealthVideo } from '@/lib/mock-api/types';
 
 interface ConsultationData {
@@ -138,25 +137,6 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <GuideCard step="Step 3" title="Content has been matched — now generate the care summary" variant="info">
-        <p>
-          The system matched educational videos to this patient based on <strong>ICD-10 codes</strong> using
-          bidirectional prefix matching — the same logic as S5&apos;s <code>icd10: &#123; contains: [...] &#125;</code> GraphQL filter.
-          In production, you&apos;d swap the YouTube videos below for real Sanctuary content with a single API call to S5.
-        </p>
-        <p>
-          On the right side, you&apos;ll see the <strong>Care Pipeline</strong> — this tracks the full delivery workflow.
-          Now click <strong>&ldquo;Generate AI Care Summary&rdquo;</strong> to have Claude write a plain-language summary of the
-          consultation, written at an 8th-grade reading level in the patient&apos;s language.
-        </p>
-        <p>
-          After the summary generates, click <strong>&ldquo;Send SMS + Email Now&rdquo;</strong> to deliver everything to the patient.
-          In production, this fires automatically ~2 hours after the consultation.
-          If the patient&apos;s language isn&apos;t English, the entire email and care summary are translated automatically —
-          similar to how S5&apos;s content supports multiple languages, but applied to the personalised output too.
-        </p>
-      </GuideCard>
-
       {/* Patient Header — NHS style */}
       <div className="bg-[#003087] text-white p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -211,6 +191,10 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
               Topics: {matchedContent.metadata.topicsIncluded.map(t => TOPIC_LABELS[t] || t).join(', ')}
             </span>
           </div>
+          <p className="text-xs text-blue-700 bg-blue-50 border border-blue-200 px-3 py-2">
+            These videos were matched using ICD-10 codes from the transcript — the same matching logic as S5&apos;s content API.
+            In production, these would be real Sanctuary videos instead of YouTube placeholders.
+          </p>
 
           {/* Videos grouped by topic */}
           {Object.entries(matchedContent.groupedByTopic).map(([topic, videos]) => (
@@ -293,6 +277,11 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
               <span className="px-2 py-0.5 text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-200">Demo</span>
             </div>
             <div className="space-y-3">
+              {!c.careSummary && (
+                <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2">
+                  Step 5 &mdash; Claude writes a plain-language care summary from the transcript, at an 8th-grade reading level.
+                </p>
+              )}
               <button
                 onClick={generateSummary}
                 disabled={generatingSummary || !!c.careSummary}
@@ -312,6 +301,14 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                   'Generate AI Care Summary'
                 )}
               </button>
+              {c.careSummary && c.status !== 'notification_sent' && (
+                <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2">
+                  Step 6 &mdash; Send the care summary, matched videos, and follow-up info to the patient via SMS and email.
+                  {c.patientLanguage && c.patientLanguage !== 'en' && (
+                    <span> The entire email will be translated into {c.patientLanguage}.</span>
+                  )}
+                </p>
+              )}
               <button
                 onClick={sendNotification}
                 disabled={sendingNotification || !c.careSummary || c.status === 'notification_sent'}
@@ -351,26 +348,22 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
 
           {/* Guide: after notification sent */}
           {c.status === 'notification_sent' && (
-            <GuideCard step="Step 4" title="Notification sent — check your phone and email" variant="action">
-              <p>
-                The patient just received an <strong>SMS</strong> with a link and a full <strong>HTML email</strong> with
-                their diagnosis, care summary, medications, follow-up date, safety information, and all matched videos.
+            <div className="bg-amber-50 border border-amber-200 p-4 space-y-2">
+              <p className="text-xs font-semibold text-amber-800">Step 7 &mdash; Check your phone and email</p>
+              <p className="text-xs text-amber-700">
+                You should have received an SMS with a link and an HTML email with the care summary, medications, follow-up info,
+                safety netting, and all matched videos.
               </p>
-              <p>
-                If the patient&apos;s language isn&apos;t English, the entire email is translated — every heading, label, and piece
-                of content — in a single Claude API call. It works for any language, not a hardcoded list.
+              <p className="text-xs text-amber-700">
+                Open the patient page below to see what the patient sees — including a phone number for an AI voice agent
+                that knows the full consultation context.
               </p>
-              <p>
-                Click the link in the SMS or open the patient page below to see what the patient sees.
-                At the bottom of that page, there&apos;s a phone number to call an <strong>AI voice agent</strong> that knows
-                the full consultation context.
-              </p>
-              <p>
-                <a href={`/patient/${id}`} className="font-semibold underline">
+              <p className="text-xs">
+                <a href={`/patient/${id}`} className="font-semibold text-[#005eb8] underline">
                   Open Patient View &rarr;
                 </a>
               </p>
-            </GuideCard>
+            </div>
           )}
         </div>
       </div>
