@@ -83,7 +83,7 @@ function TranscriptRecorder({ transcript, onTranscriptChange }: {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
         {recording ? (
           <button
             type="button"
@@ -237,10 +237,10 @@ export default function ConsultationForm() {
           <span className="text-base font-bold text-amber-900">Choose a scenario &amp; enter your phone number</span>
           <span className="text-sm text-amber-500 font-medium ml-auto">Step 1 of 5</span>
         </div>
-        <p className="text-sm text-amber-700 mb-3 ml-9">
+        <p className="text-sm text-amber-700 mb-3 sm:ml-9">
           Each uses a real consultation transcript from published research datasets. Your email is pre-filled — just add your phone number so the SMS reaches you.
         </p>
-        <div className="flex flex-wrap gap-2 ml-9">
+        <div className="flex flex-wrap gap-2 sm:sm:ml-9">
           {DEMO_SCENARIOS.map((s, i) => (
             <button
               key={i}
@@ -267,7 +267,7 @@ export default function ConsultationForm() {
             In production, a GP has this open alongside their existing system. All they enter is the patient&apos;s contact info — the transcription handles everything else.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <div>
             <label className="emis-label">Patient Name</label>
             <input className="emis-input" required value={contact.patientName} onChange={e => updateContact('patientName', e.target.value)} placeholder="Mrs Maria Garcia" />
@@ -334,7 +334,7 @@ export default function ConsultationForm() {
                 <span className="text-base font-bold text-amber-900">Process the transcript</span>
                 <span className="text-sm text-amber-500 font-medium ml-auto">Step 2 of 5</span>
               </div>
-              <p className="text-sm text-amber-700 ml-9">
+              <p className="text-sm text-amber-700 sm:ml-9">
                 Claude will extract the diagnosis, ICD-10 codes, medications, care plan, and safety netting from the transcript.
               </p>
             </div>
@@ -377,7 +377,7 @@ export default function ConsultationForm() {
                 <span className="text-base font-bold text-amber-900">Review extracted data &amp; save</span>
                 <span className="text-sm text-amber-500 font-medium ml-auto">Step 3 of 5</span>
               </div>
-              <p className="text-sm text-amber-700 ml-9">
+              <p className="text-sm text-amber-700 sm:ml-9">
                 Claude extracted all of this from the transcript. The GP can review and edit anything before saving.
                 The ICD-10 codes determine which educational videos from S5&apos;s library are matched to this patient.
                 Click <strong>&ldquo;Save &amp; Match Content&rdquo;</strong> at the bottom when ready.

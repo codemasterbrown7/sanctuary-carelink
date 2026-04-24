@@ -178,7 +178,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
         {/* Left: Matched Videos + Transcript */}
         <div className="lg:col-span-2 space-y-6">
           {/* Content summary */}
@@ -284,7 +284,7 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                     <span className="text-base font-bold text-amber-900">Generate care summary</span>
                     <span className="text-sm text-amber-500 font-medium ml-auto">Step 4 of 5</span>
                   </div>
-                  <p className="text-sm text-amber-700 ml-9">
+                  <p className="text-sm text-amber-700 sm:ml-9">
                     Claude writes a plain-language care summary from the transcript, at an 8th-grade reading level.
                   </p>
                 </div>
@@ -315,14 +315,14 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                     <span className="text-base font-bold text-amber-900">Send to patient</span>
                     <span className="text-sm text-amber-500 font-medium ml-auto">Step 5 of 5</span>
                   </div>
-                  <p className="text-sm text-amber-700 ml-9">
+                  <p className="text-sm text-amber-700 sm:ml-9">
                     Send the care summary, matched videos, and follow-up info to the patient via SMS and email.
                     In production, this fires automatically ~2 hours after the consultation.
                     {c.patientLanguage && c.patientLanguage !== 'en' && (
                       <span> The entire email will be translated into {c.patientLanguage}.</span>
                     )}
                   </p>
-                  <p className="text-sm text-amber-700 ml-9 mt-1">
+                  <p className="text-sm text-amber-700 sm:ml-9 mt-1">
                     After sending, try <strong>calling the AI voice agent</strong> from the patient page — it knows the full
                     consultation context and can answer questions about the diagnosis, medications, and care plan.
                   </p>
@@ -372,17 +372,17 @@ export default function ConsultationDetailPage({ params }: { params: Promise<{ i
                 <span className="inline-flex items-center justify-center w-7 h-7 bg-green-600 text-white text-sm font-bold">&check;</span>
                 <span className="text-base font-bold text-green-900">Done — check your phone and email</span>
               </div>
-              <p className="text-sm text-green-700 ml-9">
+              <p className="text-sm text-green-700 sm:ml-9">
                 You should have received an SMS with a link and an HTML email with the care summary, medications, follow-up info,
                 safety netting, and all matched videos.
               </p>
-              <p className="text-sm text-green-700 ml-9">
+              <p className="text-sm text-green-700 sm:ml-9">
                 Open the patient page to see what the patient sees. At the bottom, there&apos;s a phone number for
                 an <strong>AI voice agent</strong> — try calling it and asking questions about the consultation
                 (e.g. &ldquo;What therapy did the doctor recommend?&rdquo; or &ldquo;What are my medication instructions?&rdquo;).
                 It knows the full consultation context.
               </p>
-              <p className="ml-9">
+              <p className="sm:ml-9">
                 <a href={`/patient/${id}`} className="text-sm font-bold text-[#005eb8] underline">
                   Open Patient View &rarr;
                 </a>
