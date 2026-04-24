@@ -28,18 +28,18 @@ export default function DashboardPage() {
         </p>
       </GuideCard>
 
-      <GuideCard step="Step 1" title="Start here — fill in patient details and a transcript" variant="action">
+      <GuideCard step="Step 1" title="Start here — choose a scenario and enter your phone number" variant="action">
         <p>
           This is the <strong>clinician view</strong> — a lightweight app the GP has open alongside their existing system.
           All they need to enter is the patient&apos;s name, phone, email, and language. The consultation is recorded and
           transcribed in real time using Deepgram — the transcription does the rest.
         </p>
         <p>
-          For this demo, click the <strong>&ldquo;Anxiety&rdquo;</strong> button in the blue banner to pre-fill with a real consultation
-          transcript from PriMock57 — a dataset of 57 mock primary care consultations conducted by real Babylon Health clinicians.
+          Choose one of the <strong>demo scenarios</strong> below — each uses a real consultation transcript
+          from published research datasets. Your email is pre-filled. <strong>Enter your phone number</strong> so
+          the SMS notification reaches you.
         </p>
         <p>
-          <strong>Enter your phone number</strong> in the Phone field so the SMS notification reaches you.
           Then click <strong>&ldquo;Process Transcript&rdquo;</strong> to see the AI extract structured clinical data.
         </p>
       </GuideCard>

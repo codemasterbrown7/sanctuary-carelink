@@ -21,8 +21,8 @@ export const DEMO_SCENARIOS: DemoScenario[] = [
     condition: 'Type 2 Diabetes',
     contact: {
       patientName: 'Mr Richard Wells',
-      patientPhone: '+447983665987',
-      patientEmail: 'lucas@tfest.ai',
+      patientPhone: '',
+      patientEmail: 'jack@sanctuaryhealth.io',
       patientLanguage: 'Spanish',
     },
     transcript: `Doctor: Hi Richard, how are you? The medical assistant told me that you have a tick bite, is that what happened?
@@ -86,8 +86,8 @@ Doctor: Well, you know where to find me. Take care. Bye.`,
     condition: 'Hypertension',
     contact: {
       patientName: 'Mr Philip Anderson',
-      patientPhone: '+447983665987',
-      patientEmail: 'lucas@tfest.ai',
+      patientPhone: '',
+      patientEmail: 'jack@sanctuaryhealth.io',
       patientLanguage: 'Polish',
     },
     transcript: `Doctor: Hey Philip, good to see you today. So take a look here at my notes, I see you're coming in for some right knee pain and you have a past medical history of hypertension, so we'll take a look at that. Can you tell me what happened to your knee?

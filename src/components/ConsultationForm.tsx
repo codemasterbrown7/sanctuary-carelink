@@ -230,28 +230,36 @@ export default function ConsultationForm() {
 
   return (
     <form onSubmit={handleSubmit} className="emis-form">
+      {/* ── Demo Scenario Selector ──────────── */}
+      <div className="bg-amber-50 border border-amber-200 p-4">
+        <p className="text-sm font-semibold text-amber-900 mb-2">Choose a demo scenario</p>
+        <p className="text-xs text-amber-700 mb-3">
+          Each scenario uses a real consultation transcript from published research datasets (ACI-Bench, PriMock57).
+          It will pre-fill the patient details and transcript — just add your phone number.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {DEMO_SCENARIOS.map((s, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => {
+                setContact(s.contact);
+                setTranscript(s.transcript);
+                setExtracted(null);
+                setEditableExtracted(null);
+              }}
+              className="px-4 py-2 bg-[#005eb8] hover:bg-[#003d78] text-white text-sm font-medium transition-colors"
+            >
+              {s.condition} ({s.contact.patientLanguage === 'en' ? 'English' : s.contact.patientLanguage})
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── Section A: Patient Contact ──────────── */}
       <div className="emis-banner">
-        <div className="flex items-center justify-between mb-2">
+        <div className="mb-2">
           <span className="text-[10px] uppercase tracking-wider text-blue-200">Patient Contact Details</span>
-          <div className="flex items-center gap-1">
-            {DEMO_SCENARIOS.map((s, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => {
-                  setContact(s.contact);
-                  setTranscript(s.transcript);
-                  setExtracted(null);
-                  setEditableExtracted(null);
-                }}
-                title={`Fill ${s.condition} demo`}
-                className="px-1.5 py-0.5 text-[10px] text-blue-200 hover:text-white hover:bg-blue-800/50 border border-transparent hover:border-blue-400/30 transition-colors"
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div>
@@ -302,26 +310,7 @@ export default function ConsultationForm() {
 
       {/* ── Section B: Transcript ──────────────── */}
       <div className="emis-section">
-        <div className="flex items-center">
-          <div className="emis-section-header flex-1">Consultation Transcript</div>
-          <div className="flex items-center gap-1">
-            {DEMO_SCENARIOS.map((s, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => {
-                  setTranscript(s.transcript);
-                  setExtracted(null);
-                  setEditableExtracted(null);
-                }}
-                title={`Fill ${s.condition} transcript`}
-                className="px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-[#005eb8] hover:bg-blue-50 border border-transparent hover:border-blue-200 transition-colors"
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        <div className="emis-section-header">Consultation Transcript</div>
         <TranscriptRecorder
           transcript={transcript}
           onTranscriptChange={setTranscript}
