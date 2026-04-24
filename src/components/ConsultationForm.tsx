@@ -285,7 +285,7 @@ export default function ConsultationForm() {
               required
               value={contact.patientPhone}
               onChange={e => updateContact('patientPhone', e.target.value)}
-              placeholder="+44 your number here"
+              placeholder="07911 123456"
             />
             {contact.patientName && !contact.patientPhone && (
               <p className="text-xs text-amber-600 mt-1 font-medium">Enter your phone number so the SMS notification reaches you</p>
